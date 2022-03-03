@@ -1,4 +1,4 @@
-import MainScreenOfferCard from './main-screen_offer-card';
+import MainScreenOfferCard from './main-screen-offer-card';
 import { OffersType } from '../../types/offers-type';
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ function OffersList(propsOffersList: PropsOfferList): JSX.Element {
         <MainScreenOfferCard
           key={item.id}
           offer={item}
-          gotId={handleCardHover}
+          handleCardHover={handleCardHover}
         />
       ))}
     </>

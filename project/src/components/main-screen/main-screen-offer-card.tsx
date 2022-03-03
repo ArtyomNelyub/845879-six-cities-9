@@ -5,21 +5,20 @@ import { AppRoute } from '../../const';
 
 type PropsOfferCard = {
   offer: OffersType;
-  gotId: (id: number | undefined) => void;
+  handleCardHover: (id: number | undefined) => void;
 };
 
 function MainScreenOfferCard(Props: PropsOfferCard): JSX.Element {
-  const { offer } = Props;
-  const { gotId } = Props;
+  const { offer, handleCardHover } = Props;
 
   return (
     <article
       className="cities__place-card place-card"
       onMouseOver={() => {
-        gotId(offer.id);
+        handleCardHover(offer.id);
       }}
       onMouseOut={() => {
-        gotId(undefined);
+        handleCardHover(undefined);
       }}
     >
       <div className="place-card__mark">

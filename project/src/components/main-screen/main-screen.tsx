@@ -1,6 +1,6 @@
 import OffersList from './offers-list';
 import { offers } from '../../mocks/offers';
-import SVGComponent from '../SVG-component/SVG-component';
+import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 
 type MainScreenProps = {
@@ -10,7 +10,7 @@ type MainScreenProps = {
 function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
   return (
     <>
-      <SVGComponent />
+      <SVGContainer />
       <div className="page page--gray page--main">
         <Header />
 

@@ -1,11 +1,11 @@
-import SVGComponent from '../SVG-component/SVG-component';
+import SVGContainer from '../svg-container/svg-container';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 
 function LoginScreen(): JSX.Element {
   return (
     <>
-      <SVGComponent />
+      <SVGContainer />
 
       <div className="page page--gray page--login">
         <header className="header">

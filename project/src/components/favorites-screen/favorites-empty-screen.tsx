@@ -1,5 +1,5 @@
 import Footer from '../footer/footer';
-import SVGComponent from '../SVG-component/SVG-component';
+import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
 
 function FavoritesEmptyScreen(): JSX.Element {

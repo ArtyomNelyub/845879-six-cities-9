@@ -1,10 +1,10 @@
-import SVGComponent from '../SVG-component/SVG-component';
+import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 
 function MainEmptyScreen(): JSX.Element {
   return (
     <>
-      <SVGComponent />
+      <SVGContainer />
       <div className="page page--gray page--main">
         <Header />
 

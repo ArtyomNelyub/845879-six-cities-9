@@ -11,7 +11,8 @@ import { OffersType } from '../../types/offers-type';
 
 type AppScreenProps = {
   countOffers: number;
-  offersProp: OffersType[];
+  offers: OffersType[];
+  authorizationStatus:  AuthorizationStatus;
 };
 
 function App(appScreenProps: AppScreenProps): JSX.Element {
@@ -26,7 +27,7 @@ function App(appScreenProps: AppScreenProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={appScreenProps.authorizationStatus}>
               <FavoritesScreen />
             </PrivateRoute>
           }

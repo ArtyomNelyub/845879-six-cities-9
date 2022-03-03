@@ -1,5 +1,5 @@
 import FormPropertyScreen from './form-property-screen';
-import SVGComponent from '../SVG-component/SVG-component';
+import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
 
 function PropertyScreen(): JSX.Element {

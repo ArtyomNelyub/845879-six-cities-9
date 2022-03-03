@@ -1,7 +1,7 @@
 import { offers } from '../../mocks/offers';
 import Card from './card';
 import Footer from '../footer/footer';
-import SVGComponent from '../SVG-component/SVG-component';
+import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
 
 function FavoritesScreen(): JSX.Element {
@@ -39,8 +39,8 @@ function FavoritesScreen(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {offers.map((itemL) => (
-                      <Card key={itemL.id} card={itemL} />
+                    {offers.map((card) => (
+                      <Card key={card.id} card={card} />
                     ))}
                   </div>
                 </li>

@@ -5,8 +5,8 @@ import { AppRoute } from '../../const';
 type ItemProps = {
   card : OffersType;
 }
-function Card(propsItem : ItemProps): JSX.Element {
-  const {card} = propsItem;
+function Card(props : ItemProps): JSX.Element {
+  const {card} = props;
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
