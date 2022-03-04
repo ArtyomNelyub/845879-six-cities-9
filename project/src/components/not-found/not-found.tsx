@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function NotFound(): JSX.Element {
   return (
@@ -14,7 +15,7 @@ function NotFound(): JSX.Element {
             </h1>
             <h2> Oops! Page not Found</h2>
             <Link
-              to="/"
+              to={AppRoute.Main}
               className="login__submit form__submit button"
               type="submit"
               style={{ textAlign: 'left' }}
