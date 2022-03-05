@@ -1,11 +1,20 @@
+export type CityLocation = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
+export type RentPoint = {
+  latitude: number;
+  longitude: number;
+}
+
+export type RentPoints = RentPoint[];
+
 export type OffersType = {
   bedrooms?: number;
   city?: {
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
+    location: CityLocation;
     name: string;
   };
   description?: string;
