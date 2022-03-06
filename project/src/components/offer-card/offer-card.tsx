@@ -2,18 +2,19 @@ import { OffersType } from '../../types/offers-type';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-
 type PropsOfferCard = {
   offer: OffersType;
   handleCardHover: (id: number | undefined) => void;
+  classNameForArticle: string;
+  classNameForDiv: string;
 };
 
-function MainScreenOfferCard(Props: PropsOfferCard): JSX.Element {
-  const { offer, handleCardHover } = Props;
+function OfferCard(Props: PropsOfferCard): JSX.Element {
+  const { offer, handleCardHover, classNameForArticle, classNameForDiv } = Props;
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={`${classNameForArticle} place-card`}
       onMouseOver={() => {
         handleCardHover(offer.id);
       }}
@@ -21,10 +22,15 @@ function MainScreenOfferCard(Props: PropsOfferCard): JSX.Element {
         handleCardHover(undefined);
       }}
     >
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      {offer.isPremium ? (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      ) : null}
+
+      <div
+        className={`${classNameForDiv}__image-wrapper place-card__image-wrapper`}
+      >
         <Link to={AppRoute.Room}>
           <img
             className="place-card__image"
@@ -38,9 +44,7 @@ function MainScreenOfferCard(Props: PropsOfferCard): JSX.Element {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">
-              &euro;{offer.price}
-            </b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -65,4 +69,4 @@ function MainScreenOfferCard(Props: PropsOfferCard): JSX.Element {
   );
 }
 
-export default MainScreenOfferCard;
+export default OfferCard;

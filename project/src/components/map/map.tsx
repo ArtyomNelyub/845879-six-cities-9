@@ -14,6 +14,7 @@ const defaultIcon = new Icon({
 type MapProps = {
   cityLocation: CityLocation;
   rentPoints: RentPoints;
+  classes: string;
 };
 
 function Map(props: MapProps): JSX.Element {
@@ -35,7 +36,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, rentPoints]);
 
-  return <section className="cities__map map" ref={mapRef}></section>;
+  return <section className={props.classes} ref={mapRef}></section>;
 }
 
 export default Map;
