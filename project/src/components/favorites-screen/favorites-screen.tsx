@@ -1,4 +1,4 @@
-import { offers } from '../../mocks/offers';
+import { offers } from '../../mocks/mocks';
 import Card from './card';
 import Footer from '../footer/footer';
 import SVGComponent from '../svg-container/svg-container';

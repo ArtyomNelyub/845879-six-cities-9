@@ -1,7 +1,8 @@
 import OffersList from './offers-list';
-import { offers } from '../../mocks/offers';
+import { offers, rentPoints, cityLocation } from '../../mocks/mocks';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
+import Map from '../map/map';
 
 type MainScreenProps = {
   countOffers: number;
@@ -21,9 +22,7 @@ function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
               <ul className="locations__list tabs__list">
                 <li className="locations__item">
                   <a className="locations__item-link tabs__item" href="#todo">
-                    <span>
-                      Paris
-                    </span>
+                    <span>Paris</span>
                   </a>
                 </li>
                 <li className="locations__item">
@@ -91,11 +90,11 @@ function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  <OffersList offers={offers}/>
+                  <OffersList offers={offers} />
                 </div>
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <Map cityLocation={cityLocation} rentPoints={rentPoints} />
               </div>
             </div>
           </div>

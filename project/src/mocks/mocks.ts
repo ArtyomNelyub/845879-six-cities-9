@@ -1,4 +1,17 @@
-import { OffersType } from '../types/offers-type';
+import { OffersType, CityLocation, RentPoints } from '../types/offers-type';
+
+export const cityLocation: CityLocation = {
+  latitude: 52.370216,
+  longitude: 4.895168,
+  zoom: 10,
+};
+
+export const rentPoints: RentPoints = [
+  { latitude: 52.3909553943508, longitude: 4.85309666406198 },
+  { latitude: 52.369553943508, longitude: 4.85309666406198 },
+  { latitude: 52.3909553943508, longitude: 4.929309666406198 },
+  { latitude: 52.3809553943508, longitude: 4.939309666406198 },
+];
 
 export const offers: OffersType[] = [
   {
