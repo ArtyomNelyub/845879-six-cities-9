@@ -1,20 +1,23 @@
-import { OffersType } from '../../types/offers-type';
+import { OfferType } from '../../types/offers-type';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 type PropsOfferCard = {
-  offer: OffersType;
+  offer: OfferType;
   handleCardHover: (id: number | undefined) => void;
-  classNameForArticle: string;
-  classNameForDiv: string;
+  isMainScreen: boolean;
 };
 
 function OfferCard(Props: PropsOfferCard): JSX.Element {
-  const { offer, handleCardHover, classNameForArticle, classNameForDiv } = Props;
+  const { offer, handleCardHover, isMainScreen } = Props;
 
   return (
     <article
-      className={`${classNameForArticle} place-card`}
+      className={
+        isMainScreen
+          ? 'cities__place-card place-card'
+          : 'near-places__card place-card'
+      }
       onMouseOver={() => {
         handleCardHover(offer.id);
       }}
@@ -29,7 +32,11 @@ function OfferCard(Props: PropsOfferCard): JSX.Element {
       ) : null}
 
       <div
-        className={`${classNameForDiv}__image-wrapper place-card__image-wrapper`}
+        className={
+          isMainScreen
+            ? 'cities__image-wrapper place-card__image-wrapper'
+            : 'near-places__image-wrapper place-card__image-wrapper'
+        }
       >
         <Link to={AppRoute.Room}>
           <img

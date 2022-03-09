@@ -11,7 +11,7 @@ export type RentPoint = {
 
 export type RentPoints = RentPoint[];
 
-export type ReviewData = {
+export type Review = {
   urlAuthorAvatar: string;
   authorName: string;
   authorRating: string;
@@ -20,9 +20,9 @@ export type ReviewData = {
   reviewId: string;
 }
 
-export type Reviews = ReviewData[];
+export type Reviews = Review[];
 
-export type OffersType = {
+export type OfferType = {
   bedrooms?: number;
   city?: {
     location: CityLocation;
@@ -52,3 +52,5 @@ export type OffersType = {
   title?: string;
   type?: string;
 };
+
+export type OffersType = OfferType[];

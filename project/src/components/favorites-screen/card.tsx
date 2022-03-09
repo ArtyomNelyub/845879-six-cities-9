@@ -1,9 +1,9 @@
-import { OffersType } from '../../types/offers-type';
+import { OfferType } from '../../types/offers-type';
 import {Link} from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 type ItemProps = {
-  card : OffersType;
+  card : OfferType;
 }
 function Card(props : ItemProps): JSX.Element {
   const {card} = props;

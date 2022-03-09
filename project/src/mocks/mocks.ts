@@ -34,7 +34,7 @@ export const reviews: Reviews = [
 
 ];
 
-export const offers: OffersType[] = [
+export const offers: OffersType = [
   {
     bedrooms: 1,
     city: {

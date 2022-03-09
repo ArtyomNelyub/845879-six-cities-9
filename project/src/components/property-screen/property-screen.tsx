@@ -1,7 +1,7 @@
 import FormPropertyScreen from './form-property-screen';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
-import ReviewsList from './reviews-list';
+import ReviewList from './review-list';
 import { reviews, rentPoints, cityLocation, offers } from '../../mocks/mocks';
 import Map from '../map/map';
 import OfferCardList from '../offer-card/offer-card-list';
@@ -153,7 +153,7 @@ function PropertyScreen(): JSX.Element {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <ReviewsList reviews={reviews} />
+                  <ReviewList reviews={reviews} />
                   <FormPropertyScreen />
                 </section>
               </div>
@@ -161,7 +161,7 @@ function PropertyScreen(): JSX.Element {
             <Map
               cityLocation={cityLocation}
               rentPoints={rentPoints.slice(0, 3)}
-              classes="property__map map"
+              isMainScreen={false}
             />
           </section>
           <div className="container">
@@ -172,8 +172,7 @@ function PropertyScreen(): JSX.Element {
               <div className="near-places__list places__list">
                 <OfferCardList
                   offers={offers.slice(0, 3)}
-                  classNameForArticle="near-places__card"
-                  classNameForDiv="near-places"
+                  isMainScreen={false}
                 />
               </div>
             </section>

@@ -3,13 +3,12 @@ import { OffersType } from '../../types/offers-type';
 import { useState } from 'react';
 
 type PropsOfferList = {
-  offers: OffersType[];
-  classNameForArticle: string;
-  classNameForDiv: string;
+  offers: OffersType;
+  isMainScreen: boolean;
 };
 
 function OfferCardList(propsOffersList: PropsOfferList): JSX.Element {
-  const { offers, classNameForArticle, classNameForDiv } = propsOffersList;
+  const { offers, isMainScreen} = propsOffersList;
   const [, setActiveCardId] = useState<number | undefined>(undefined);
   const handleCardHover = (id: number | undefined) => {
     setActiveCardId(id);
@@ -22,8 +21,7 @@ function OfferCardList(propsOffersList: PropsOfferList): JSX.Element {
           key={item.id}
           offer={item}
           handleCardHover={handleCardHover}
-          classNameForArticle={classNameForArticle}
-          classNameForDiv={classNameForDiv}
+          isMainScreen = {isMainScreen}
         />
       ))}
     </>

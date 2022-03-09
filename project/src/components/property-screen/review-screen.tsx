@@ -1,11 +1,11 @@
-import { ReviewData } from '../../types/offers-type';
+import { Review } from '../../types/offers-type';
 
-type ReviewProps = {
-  review: ReviewData;
+type ReviewType = {
+  review: Review;
 };
 
-function Review(propsReview: ReviewProps): JSX.Element {
-  const { review } = propsReview;
+function ReviewScreen(props: ReviewType): JSX.Element {
+  const { review } = props;
 
   return (
     <li className="reviews__item">
@@ -37,4 +37,4 @@ function Review(propsReview: ReviewProps): JSX.Element {
   );
 }
 
-export default Review;
+export default ReviewScreen;
