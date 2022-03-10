@@ -1,4 +1,4 @@
-import { OffersType, CityLocation, RentPoints } from '../types/offers-type';
+import { OffersType, CityLocation, RentPoints, Reviews } from '../types/offers-type';
 
 export const cityLocation: CityLocation = {
   latitude: 52.370216,
@@ -13,7 +13,28 @@ export const rentPoints: RentPoints = [
   { latitude: 52.3809553943508, longitude: 4.939309666406198 },
 ];
 
-export const offers: OffersType[] = [
+export const reviews: Reviews = [
+  {
+    urlAuthorAvatar: 'img/avatar-angelina.jpg',
+    authorName: 'Kate',
+    authorRating: '80%',
+    reviewText: 'norm',
+    reviewData: '25 spt 2021',
+    reviewId : '1',
+  },
+  {
+    urlAuthorAvatar: 'img/avatar-max.jpg',
+    authorName: 'Max',
+    authorRating: '60%',
+    reviewText: 'so so',
+    reviewData: '01 spt 2021',
+    reviewId: '2',
+  },
+
+
+];
+
+export const offers: OffersType = [
   {
     bedrooms: 1,
     city: {
@@ -103,7 +124,7 @@ export const offers: OffersType[] = [
     id: 3,
     images: ['img/1.png'],
     isFavorite: true,
-    isPremium: false,
+    isPremium: true,
     location: {
       latitude: 52.35514938496378,
       longitude: 4.673877537499948,

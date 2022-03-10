@@ -1,5 +1,6 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import Star from './star';
+import { starValues, starTitles } from '../../const';
 
 type FormData = {
   rating: string;
@@ -7,21 +8,6 @@ type FormData = {
 };
 
 function FormPropertyScreen(): JSX.Element {
-  const starValues: string[] = [
-    '5-stars',
-    '4-stars',
-    '3-stars',
-    '2-stars',
-    '1-star',
-  ];
-  const starTitles: string[] = [
-    'perfect',
-    'good',
-    'not bad',
-    'badly',
-    'terribly',
-  ];
-
   const [formData, setFormData] = useState<FormData>({
     rating: '',
     review: '',
@@ -37,7 +23,9 @@ function FormPropertyScreen(): JSX.Element {
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={(evt: FormEvent<HTMLFormElement>) => { evt.preventDefault(); }}
+      onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+      }}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review

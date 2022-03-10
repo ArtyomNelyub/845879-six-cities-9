@@ -1,4 +1,4 @@
-import OffersList from './offers-list';
+import OfferCardList from '../offer-card/offer-card-list';
 import { offers, rentPoints, cityLocation } from '../../mocks/mocks';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
@@ -90,11 +90,15 @@ function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  <OffersList offers={offers} />
+                  <OfferCardList offers={offers} isMainScreen />
                 </div>
               </section>
               <div className="cities__right-section">
-                <Map cityLocation={cityLocation} rentPoints={rentPoints} />
+                <Map
+                  cityLocation={cityLocation}
+                  rentPoints={rentPoints}
+                  isMainScreen
+                />
               </div>
             </div>
           </div>

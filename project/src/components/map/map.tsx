@@ -14,10 +14,11 @@ const defaultIcon = new Icon({
 type MapProps = {
   cityLocation: CityLocation;
   rentPoints: RentPoints;
+  isMainScreen: boolean;
 };
 
 function Map(props: MapProps): JSX.Element {
-  const { cityLocation, rentPoints } = props;
+  const { cityLocation, rentPoints, isMainScreen } = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, cityLocation);
@@ -35,7 +36,12 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, rentPoints]);
 
-  return <section className="cities__map map" ref={mapRef}></section>;
+  return (
+    <section
+      className={isMainScreen ? 'cities__map map' : 'property__map map'}
+      ref={mapRef}
+    />
+  );
 }
 
 export default Map;

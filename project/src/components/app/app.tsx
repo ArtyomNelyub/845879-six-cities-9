@@ -11,7 +11,7 @@ import { OffersType } from '../../types/offers-type';
 
 type AppScreenProps = {
   countOffers: number;
-  offers: OffersType[];
+  offers: OffersType;
   authorizationStatus:  AuthorizationStatus;
 };
 
