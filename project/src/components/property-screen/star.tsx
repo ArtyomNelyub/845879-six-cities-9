@@ -1,26 +1,28 @@
 import { ChangeEvent } from 'react';
 
-type PropsType = {
+type StarProps = {
   value: string;
   title: string;
-  cb: (evt: ChangeEvent<HTMLInputElement>) => void;
+  handler: (evt: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function Star(props: PropsType): JSX.Element {
+function Star(props: StarProps): JSX.Element {
+  const {value, title, handler} = props;
+
   return (
     <>
       <input
-        onChange={props.cb}
+        onChange={handler}
         className="form__rating-input visually-hidden"
         name="rating"
-        value={props.value[0]}
-        id={props.value}
+        value={value[0]}
+        id={value}
         type="radio"
       />
       <label
-        htmlFor={props.value}
+        htmlFor={value}
         className="reviews__rating-label form__rating-label"
-        title={props.title}
+        title={title}
       >
         <svg className="form__star-image" width="37" height="33">
           <use xlinkHref="#icon-star"></use>

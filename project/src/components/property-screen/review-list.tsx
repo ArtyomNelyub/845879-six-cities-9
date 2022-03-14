@@ -1,11 +1,11 @@
-import { Reviews } from '../../types/offers-type';
+import { Reviews } from '../../types/types';
 import ReviewScreen from './review-screen';
 
-type ReviewListType = {
+type ReviewList = {
   reviews: Reviews;
 };
 
-function ReviewList(props: ReviewListType): JSX.Element {
+function ReviewListScreen(props: ReviewList): JSX.Element {
   const { reviews } = props;
 
   return (
@@ -23,4 +23,4 @@ function ReviewList(props: ReviewListType): JSX.Element {
   );
 }
 
-export default ReviewList;
+export default ReviewListScreen;

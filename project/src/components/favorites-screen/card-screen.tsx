@@ -1,11 +1,11 @@
-import { OfferType } from '../../types/offers-type';
+import { Offer } from '../../types/types';
 import {Link} from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-type ItemProps = {
-  card : OfferType;
+type Card = {
+  card : Offer;
 }
-function Card(props : ItemProps): JSX.Element {
+function CardScreen(props : Card): JSX.Element {
   const {card} = props;
   return (
     <article className="favorites__card place-card">
@@ -51,4 +51,4 @@ function Card(props : ItemProps): JSX.Element {
   );
 }
 
-export default Card;
+export default CardScreen;

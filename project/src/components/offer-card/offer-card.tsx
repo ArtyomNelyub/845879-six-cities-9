@@ -1,15 +1,15 @@
-import { OfferType } from '../../types/offers-type';
+import { Offer } from '../../types/types';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-type PropsOfferCard = {
-  offer: OfferType;
+type OfferCardProps = {
+  offer: Offer;
   handleCardHover: (id: number | undefined) => void;
-  isMainScreen: boolean;
+  isMainScreen?: boolean;
 };
 
-function OfferCard(Props: PropsOfferCard): JSX.Element {
-  const { offer, handleCardHover, isMainScreen } = Props;
+function OfferCard(props: OfferCardProps): JSX.Element {
+  const { offer, handleCardHover, isMainScreen = false} = props;
 
   return (
     <article

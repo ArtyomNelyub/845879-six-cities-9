@@ -1,59 +1,35 @@
 import OfferCardList from '../offer-card/offer-card-list';
-import { offers, rentPoints, cityLocation } from '../../mocks/mocks';
+import { offers as mockOffers } from '../../mocks/mocks';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import Map from '../map/map';
+import CityList from './city-list';
+import { useAppDispatch, useAppSelector } from '../../hooks/';
+import { loadOffers } from '../../store/action';
+import { OffersLocation, Offers } from '../../types/types';
 
-type MainScreenProps = {
-  countOffers: number;
-};
+function MainScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
 
-function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
+  dispatch(loadOffers({ offers: mockOffers }));
+
+  const { offers, currentCity } = useAppSelector((state) => state);
+  const filteredOffers : Offers = offers.filter(
+    (offer) => offer.city.name === currentCity.name,
+  );
+
+  const offersLocation: OffersLocation = filteredOffers.map((offer) => offer.location);
+
   return (
     <>
       <SVGContainer />
       <div className="page page--gray page--main">
         <Header />
-
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#todo">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#todo">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#todo">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a
-                    href="#todo"
-                    className="locations__item-link tabs__item tabs__item--active"
-                  >
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#todo">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#todo">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
+              <CityList />
             </section>
           </div>
           <div className="cities">
@@ -61,7 +37,7 @@ function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">
-                  {mainScreenProps.countOffers} places to stay in Amsterdam
+                  {filteredOffers.length} places to stay in {currentCity.name}
                 </b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
@@ -90,15 +66,11 @@ function MainScreen(mainScreenProps: MainScreenProps): JSX.Element {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  <OfferCardList offers={offers} isMainScreen />
+                  <OfferCardList offers={filteredOffers} isMainScreen />
                 </div>
               </section>
               <div className="cities__right-section">
-                <Map
-                  cityLocation={cityLocation}
-                  rentPoints={rentPoints}
-                  isMainScreen
-                />
+                <Map currentCity={currentCity} offersLocation={offersLocation} isMainScreen />
               </div>
             </div>
           </div>

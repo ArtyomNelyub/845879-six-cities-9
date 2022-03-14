@@ -7,27 +7,26 @@ import PropertyScreen from '../property-screen/property-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import { AuthorizationStatus } from '../../const';
-import { OffersType } from '../../types/offers-type';
 
-type AppScreenProps = {
-  countOffers: number;
-  offers: OffersType;
+type AppScreen = {
   authorizationStatus:  AuthorizationStatus;
 };
 
-function App(appScreenProps: AppScreenProps): JSX.Element {
+function App(props: AppScreen): JSX.Element {
+  const { authorizationStatus} = props;
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen countOffers={appScreenProps.countOffers} />}
+          element={<MainScreen />}
         />
         <Route path={AppRoute.SignIn} element={<LoginScreen />} />
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={appScreenProps.authorizationStatus}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <FavoritesScreen />
             </PrivateRoute>
           }
