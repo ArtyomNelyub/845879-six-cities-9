@@ -51,3 +51,8 @@ export type City =  {
   },
   name: string,
 };
+
+export type MarkerLayer = {
+  lat: number,
+  lng: number,
+};

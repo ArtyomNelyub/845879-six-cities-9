@@ -1,10 +1,11 @@
 import { useEffect, useState, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
-import { City } from '../types/types';
+import { City, OffersLocation } from '../types/types';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
   currentCity: City,
+  offersLocation : OffersLocation,
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
 
@@ -29,8 +30,16 @@ function useMap(
       instance.addLayer(layer);
 
       setMap(instance);
+    } else if (map !== null) {
+      map.setView(
+        {
+          lat: currentCity.location.latitude,
+          lng: currentCity.location.longitude,
+        },
+        currentCity.location.zoom,
+      );
     }
-  }, [mapRef, map, currentCity]);
+  }, [mapRef, map, currentCity, offersLocation]);
 
   return map;
 }
