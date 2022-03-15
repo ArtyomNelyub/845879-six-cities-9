@@ -30,14 +30,6 @@ function useMap(
       instance.addLayer(layer);
 
       setMap(instance);
-    } else if (map !== null) {
-      map.setView(
-        {
-          lat: currentCity.location.latitude,
-          lng: currentCity.location.longitude,
-        },
-        currentCity.location.zoom,
-      );
     }
   }, [mapRef, map, currentCity, offersLocation]);
 

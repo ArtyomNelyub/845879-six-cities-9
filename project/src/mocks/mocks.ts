@@ -171,6 +171,7 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Paris',
+    id : 1,
   },
   {
     location: {
@@ -179,6 +180,7 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Cologne',
+    id : 2,
   },
   {
     location: {
@@ -187,6 +189,7 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Brussels',
+    id : 3,
   },
   {
     location: {
@@ -195,6 +198,7 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Amsterdam',
+    id : 4,
   },
   {
     location: {
@@ -203,6 +207,7 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Hamburg',
+    id : 5,
   },
   {
     location: {
@@ -211,5 +216,6 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Dusseldorf',
+    id : 6,
   },
 ];

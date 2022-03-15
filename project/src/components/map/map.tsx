@@ -17,8 +17,6 @@ const defaultIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
-const markers: Marker<unknown>[] = [];
-
 function Map(props: MapProps): JSX.Element {
   const { currentCity, offersLocation, isMainScreen = false } = props;
   const mapRef = useRef(null);
@@ -26,18 +24,12 @@ function Map(props: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map !== null) {
-      if (markers.length !== 0) {
-        markers.forEach((marker)=> map.removeLayer(marker));
-        markers.splice(0);
-      }
       offersLocation.forEach((offerLocation) => {
         const marker = new Marker({
           lat: offerLocation.latitude,
           lng: offerLocation.longitude,
         });
-        marker.setIcon(defaultIcon);
-        map.addLayer(marker);
-        markers.push(marker);
+        marker.setIcon(defaultIcon).addTo(map);
       });
     }
   }, [map, offersLocation, currentCity]);

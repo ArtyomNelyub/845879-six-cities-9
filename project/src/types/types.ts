@@ -50,6 +50,7 @@ export type City =  {
     zoom: number,
   },
   name: string,
+  id? : number,
 };
 
 export type MarkerLayer = {
