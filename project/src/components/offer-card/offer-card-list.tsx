@@ -3,7 +3,7 @@ import { Offers } from '../../types/types';
 
 type OfferListProps = {
   offers: Offers;
-  handleCardHover: (id:number | undefined)=>void;
+  handleCardHover?: (id:number | undefined)=>void;
   isMainScreen?: boolean;
 };
 

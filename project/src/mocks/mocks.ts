@@ -55,7 +55,7 @@ export const offers: Offers = [
     maxAdults: 4,
     previewImage: 'img/apartment-01.jpg',
     price: 10,
-    rating: 4.8,
+    rating: 3,
     title: 'title1',
     type: 'apartment1',
   },
@@ -89,7 +89,7 @@ export const offers: Offers = [
     maxAdults: 4,
     previewImage: 'img/apartment-02.jpg',
     price: 20,
-    rating: 4.8,
+    rating: 4.6,
     title: 'title2',
     type: 'apartment2',
   },
@@ -123,7 +123,7 @@ export const offers: Offers = [
     maxAdults: 4,
     previewImage: '../../../../img/apartment-03.jpg',
     price: 30,
-    rating: 4.8,
+    rating: 4.4,
     title: 'title3',
     type: 'apartment3',
   },
@@ -157,7 +157,7 @@ export const offers: Offers = [
     maxAdults: 4,
     previewImage: '../../../../img/apartment-01.jpg',
     price: 40,
-    rating: 4.8,
+    rating: 4,
     title: 'title4',
     type: 'apartment4',
   },
@@ -171,7 +171,6 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Paris',
-    id : 1,
   },
   {
     location: {
@@ -180,7 +179,6 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Cologne',
-    id : 2,
   },
   {
     location: {
@@ -189,7 +187,6 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Brussels',
-    id : 3,
   },
   {
     location: {
@@ -198,7 +195,6 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Amsterdam',
-    id : 4,
   },
   {
     location: {
@@ -207,7 +203,6 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Hamburg',
-    id : 5,
   },
   {
     location: {
@@ -216,6 +211,5 @@ export const CITIES: City[] = [
       zoom: 10,
     },
     name: 'Dusseldorf',
-    id : 6,
   },
 ];

@@ -36,7 +36,7 @@ export type Offer = {
   maxAdults?: number;
   previewImage?: string;
   price: number;
-  rating?: number;
+  rating: number;
   title?: string;
   type?: string;
 };
@@ -50,7 +50,6 @@ export type City =  {
     zoom: number,
   },
   name: string,
-  id? : number,
 };
 
 export type MarkerLayer = {

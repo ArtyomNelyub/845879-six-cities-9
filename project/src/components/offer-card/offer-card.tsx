@@ -4,12 +4,13 @@ import { AppRoute } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
-  handleCardHover: (id: number | undefined) => void;
+  handleCardHover?: (id: number | undefined) => void;
   isMainScreen?: boolean;
 };
 
 function OfferCard(props: OfferCardProps): JSX.Element {
-  const { offer, handleCardHover, isMainScreen = false} = props;
+  const { offer, handleCardHover, isMainScreen = false } = props;
+  const rating = (Math.round(offer.rating*100/5*100)/100).toString();
 
   return (
     <article
@@ -19,7 +20,14 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           : 'near-places__card place-card'
       }
       onMouseOver={() => {
-        handleCardHover(offer.id);
+        if (handleCardHover) {
+          handleCardHover(offer.id);
+        }
+      }}
+      onMouseOut={() => {
+        if (handleCardHover) {
+          handleCardHover(undefined);
+        }
       }}
     >
       {offer.isPremium ? (
@@ -60,7 +68,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${rating}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
