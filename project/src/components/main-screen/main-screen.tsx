@@ -19,11 +19,11 @@ function MainScreen(): JSX.Element {
     (offer) => offer.city.name === currentCity.name,
   );
 
-  const offersLocation: OffersLocation = filteredOffers.map(
+  const filteredOffersLocation: OffersLocation = filteredOffers.map(
     (offer) => offer.location,
   );
 
-  const [, setActiveCard] = useState<number | undefined>(1);
+  const [, setActiveCard] = useState<number | undefined>(undefined);
   const handleCardHover = (id:number | undefined) : void => {
     setActiveCard(id);
   };
@@ -40,7 +40,7 @@ function MainScreen(): JSX.Element {
               <CityList />
             </section>
           </div>
-          {offersLocation.length === 0 ? (
+          {filteredOffersLocation.length === 0 ? (
             <MainEmptyScreen currentCity={currentCity.name} />
           ) : (
             <div className="cities">
@@ -91,8 +91,8 @@ function MainScreen(): JSX.Element {
                 <div className="cities__right-section">
                   <Map
                     currentCity={currentCity}
-                    offersLocation={offersLocation}
-                    key={currentCity.id?.toString()}
+                    offersLocation={filteredOffersLocation}
+                    key={currentCity.name}
                     isMainScreen
                   />
                 </div>

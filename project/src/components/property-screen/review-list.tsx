@@ -1,11 +1,11 @@
 import { Reviews } from '../../types/types';
 import ReviewScreen from './review-screen';
 
-type ReviewList = {
+type ReviewListProps = {
   reviews: Reviews;
 };
 
-function ReviewListScreen(props: ReviewList): JSX.Element {
+function ReviewListScreen(props: ReviewListProps): JSX.Element {
   const { reviews } = props;
 
   return (

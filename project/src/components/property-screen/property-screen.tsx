@@ -6,16 +6,10 @@ import { reviews, offers as mockOffers } from '../../mocks/mocks';
 import Map from '../map/map';
 import OfferCardList from '../offer-card/offer-card-list';
 import { useAppSelector } from '../../hooks/';
-import {useState} from 'react';
 
 function PropertyScreen(): JSX.Element {
   const offersLocation = mockOffers.map((offer) => offer.location);
   const { currentCity } = useAppSelector((state) => state);
-
-  const [activeCard, setActiveCard] = useState<number | undefined>(1);
-  const handleCardHover = (id:number | undefined) : void => {
-    setActiveCard(id);
-  };
 
   return (
     <>
@@ -171,7 +165,6 @@ function PropertyScreen(): JSX.Element {
             <Map
               currentCity={currentCity}
               offersLocation={offersLocation.slice(0, 3)}
-              key={activeCard ? activeCard.toString() : null}
             />
           </section>
           <div className="container">
@@ -182,7 +175,7 @@ function PropertyScreen(): JSX.Element {
               <div className="near-places__list places__list">
                 <OfferCardList
                   offers={mockOffers.slice(0, 3)}
-                  handleCardHover={handleCardHover}
+                  handleCardHover = {()=>undefined}
                 />
               </div>
             </section>

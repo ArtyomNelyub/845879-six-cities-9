@@ -1,45 +1,31 @@
-import { CITIES } from '../../mocks/mocks';
-import { useAppDispatch } from '../../hooks/';
+import { cities as mockCities } from '../../mocks/mocks';
+import { useAppDispatch, useAppSelector } from '../../hooks/';
 import { selectCity } from '../../store/action';
-import { City } from '../../types/types';
-import { useState } from 'react';
 
 function CityList(): JSX.Element {
-  const [activeCity, setActiveCity] = useState<boolean[]>([
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const { currentCity } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
-  const changeCity = function (city: City) {
-    dispatch(selectCity({ selectedCity: city }));
-  };
-
   return (
     <ul className="locations__list tabs__list">
-      {CITIES.map((city, indexCity) => (
+      {mockCities.map((city) => (
         <li
-          className="locations__item" key={`${city.name}`}
+          className="locations__item"
+          key={`${city.name}`}
           onClick={() => {
-            setActiveCity((prev) =>
-              prev.map((item, indexIsActive) => indexCity === indexIsActive),
-            );
+            dispatch(selectCity({ selectedCity: city }));
           }}
         >
           <a
             className={
-              activeCity[indexCity]
+              currentCity === city
                 ? 'locations__item-link tabs__item tabs__item--active'
                 : 'locations__item-link tabs__item'
             }
-            href="#todo"
+            href={`#${currentCity.name}`}
           >
-            <span onClick={() => changeCity(city)}>{city.name}</span>
+            <span>{city.name}</span>
           </a>
         </li>
       ))}

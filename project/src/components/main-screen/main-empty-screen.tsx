@@ -11,11 +11,14 @@ function MainEmptyScreen(props: MainEmptyScreenProps): JSX.Element {
           <div className="cities__status-wrapper tabs__content">
             <b className="cities__status">No places to stay available</b>
             <p className="cities__status-description">
-              We could not find any property available at the moment in {`${currentCity}`}
+              We could not find any property available at the moment in{' '}
+              {`${currentCity}`}
             </p>
           </div>
         </section>
-        <div className="cities__right-section"/>
+        <div className="cities__right-section">
+          <img alt="Здесь была картинка города" src="img/no-places.png" />
+        </div>
       </div>
     </div>
   );

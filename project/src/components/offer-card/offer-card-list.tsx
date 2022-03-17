@@ -3,7 +3,7 @@ import { Offers } from '../../types/types';
 
 type OfferListProps = {
   offers: Offers;
-  handleCardHover: (id:number | undefined)=>void;
+  handleCardHover: (id:number | undefined)=>void | undefined;
   isMainScreen?: boolean;
 };
 
@@ -12,10 +12,10 @@ function OfferCardList(props: OfferListProps): JSX.Element {
 
   return (
     <>
-      {offers.map((item) => (
+      {offers.map((offer) => (
         <OfferCard
-          key={item.id}
-          offer={item}
+          key={offer.id}
+          offer={offer}
           handleCardHover={handleCardHover}
           isMainScreen={isMainScreen}
         />
