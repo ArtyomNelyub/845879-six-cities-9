@@ -1,5 +1,3 @@
-import { City } from './types/types';
-
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',
@@ -27,12 +25,3 @@ export const starTitles: string[] = [
   'badly',
   'terribly',
 ];
-
-export const PARIS: City = {
-  location: {
-    latitude: 48.864716,
-    longitude: 2.349014,
-    zoom: 10,
-  },
-  name: 'Paris',
-};

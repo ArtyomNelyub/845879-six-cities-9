@@ -1,6 +1,3 @@
-//import {Offers} from '../../types/types';
-//className="places__option places__option--active"
-//className="places__option"
 import { useState } from 'react';
 
 const sortMethods: string[] = [
@@ -17,18 +14,17 @@ type SortOptionsProps = {
 function SortOptions(props: SortOptionsProps ) {
   const {handleSortOptions} = props;
   const [isSortOptionsActive, setSortOptionsActive] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<string>(sortMethods[0]);
-
+  const [currentMethod, setCurrentMethod] = useState<string>(sortMethods[0]);
 
   return (
-    <>
+    <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>{' '}
       <span
         className="places__sorting-type"
         tabIndex={0}
         onClick={() => setSortOptionsActive(true)}
       >
-        {sortBy}
+        {currentMethod}
         <svg
           className="places__sorting-arrow"
           width="7"
@@ -48,16 +44,16 @@ function SortOptions(props: SortOptionsProps ) {
             tabIndex={0}
             key={method}
             onClick={() => {
-              setSortBy(method);
               setSortOptionsActive(false);
               handleSortOptions(method);
+              setCurrentMethod(method);
             }}
           >
             {method}
           </li>
         ))}
       </ul>
-    </>
+    </form>
   );
 }
 

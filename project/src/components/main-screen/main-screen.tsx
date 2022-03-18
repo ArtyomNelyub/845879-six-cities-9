@@ -16,22 +16,31 @@ function MainScreen(): JSX.Element {
   dispatch(loadOffers({ offers: mockOffers }));
 
   const [sortBy, setSortBy] = useState<string>('Popular');
-  const handleSortOptions = (SortOption: string): void => {
+  const handleSortOptions = (SortOption: string): string => {
     setSortBy(SortOption);
+    return SortOption;
   };
 
-  const changeOrderOffers = function (sortMethod : string, currentFilteredOffers: Offers) : Offers {
+  const changeOrderOffers = function (
+    sortMethod: string,
+    currentFilteredOffers: Offers,
+  ): Offers {
     switch (sortMethod) {
       case 'Price: low to high':
-        return currentFilteredOffers.sort((a,b) => a.price - b.price);
+        return currentFilteredOffers.sort((a, b) => a.price - b.price);
       case 'Price: high to low':
-        return currentFilteredOffers.sort((a,b) => b.price - a.price);
+        return currentFilteredOffers.sort((a, b) => b.price - a.price);
       case 'Top rated first':
-        return currentFilteredOffers.sort((a,b) => b.rating - a.rating);
+        return currentFilteredOffers.sort((a, b) => b.rating - a.rating);
       case 'Popular':
       default:
         return currentFilteredOffers;
     }
+  };
+
+  const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
+  const handleCardHover = (id: number | undefined): void => {
+    setActiveCard(id);
   };
 
   const { offers, currentCity } = useAppSelector((state) => state);
@@ -39,14 +48,9 @@ function MainScreen(): JSX.Element {
     (offer) => offer.city.name === currentCity.name,
   );
   const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
-  const filteredOffersLocation: OffersLocation = sortedFilteredOffers.map(
+  const sortedFilteredOffersLocation: OffersLocation = sortedFilteredOffers.map(
     (offer) => offer.location,
   );
-
-  const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
-  const handleCardHover = (id: number | undefined): void => {
-    setActiveCard(id);
-  };
 
   return (
     <>
@@ -60,7 +64,7 @@ function MainScreen(): JSX.Element {
               <CityList />
             </section>
           </div>
-          {filteredOffersLocation.length === 0 ? (
+          {filteredOffers.length === 0 ? (
             <MainEmptyScreen currentCity={currentCity.name} />
           ) : (
             <div className="cities">
@@ -70,9 +74,7 @@ function MainScreen(): JSX.Element {
                   <b className="places__found">
                     {filteredOffers.length} places to stay in {currentCity.name}
                   </b>
-                  <form className="places__sorting" action="#" method="get">
-                    <SortOptions handleSortOptions={handleSortOptions}/>
-                  </form>
+                  <SortOptions handleSortOptions={handleSortOptions} />
                   <div className="cities__places-list places__list tabs__content">
                     <OfferCardList
                       offers={sortedFilteredOffers}
@@ -84,9 +86,9 @@ function MainScreen(): JSX.Element {
                 <div className="cities__right-section">
                   <Map
                     currentCity={currentCity}
-                    offersLocation={filteredOffersLocation}
-                    activeCard={activeCard ? activeCard : 0}
+                    activeCard={activeCard}
                     filteredOffers={sortedFilteredOffers}
+                    filteredOffersLocation={sortedFilteredOffersLocation}
                     key={currentCity.name}
                     isMainScreen
                   />

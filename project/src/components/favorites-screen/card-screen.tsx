@@ -2,11 +2,11 @@ import { Offer } from '../../types/types';
 import {Link} from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-type Card = {
-  card : Offer;
+type CardScreenProps = {
+  offer : Offer;
 }
-function CardScreen(props : Card): JSX.Element {
-  const {card} = props;
+function CardScreen(props : CardScreenProps): JSX.Element {
+  const {offer} = props;
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -23,7 +23,7 @@ function CardScreen(props : Card): JSX.Element {
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{card.price}</b>
+            <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
@@ -43,9 +43,9 @@ function CardScreen(props : Card): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Room}>{card.description}</Link>
+          <Link to={AppRoute.Room}>{offer.description}</Link>
         </h2>
-        <p className="place-card__type">{card.type}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );

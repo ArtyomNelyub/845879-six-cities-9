@@ -25,7 +25,7 @@ function FavoritesScreen(): JSX.Element {
                   </div>
                   <div className="favorites__places">
                     {mockOffers.map((offer) => (
-                      <CardScreen key={offer.id} card={offer} />
+                      <CardScreen key={offer.id} offer={offer} />
                     ))}
                   </div>
                 </li>
@@ -40,7 +40,7 @@ function FavoritesScreen(): JSX.Element {
                   </div>
                   <div className="favorites__places">
                     {mockOffers.map((offer) => (
-                      <CardScreen key={offer.id} card={offer} />
+                      <CardScreen key={offer.id} offer={offer} />
                     ))}
                   </div>
                 </li>

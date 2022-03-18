@@ -164,9 +164,9 @@ function PropertyScreen(): JSX.Element {
             </div>
             <Map
               currentCity={currentCity}
-              offersLocation={mockOffersLocation.slice(0, 3)}
-              filteredOffers = {mockOffers.slice(0,3)}
-              activeCard={1}
+              activeCard={mockOffers[0].id}
+              filteredOffers={mockOffers.slice(0.3)}
+              filteredOffersLocation={mockOffersLocation.slice(0,3)}
             />
           </section>
           <div className="container">

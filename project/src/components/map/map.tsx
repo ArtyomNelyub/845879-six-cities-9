@@ -6,9 +6,9 @@ import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   currentCity: City;
-  offersLocation: OffersLocation;
+  activeCard: number | undefined;
   filteredOffers: Offers;
-  activeCard: number;
+  filteredOffersLocation: OffersLocation;
   isMainScreen?: boolean;
 };
 
@@ -26,18 +26,18 @@ const activeIcon = new Icon({
 
 function Map(props: MapProps): JSX.Element {
   const {
+    currentCity,
     activeCard,
     filteredOffers,
-    currentCity,
-    offersLocation,
+    filteredOffersLocation,
     isMainScreen = false,
   } = props;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentCity, offersLocation);
+  const map = useMap(mapRef, currentCity, filteredOffersLocation);
 
   useEffect(() => {
     if (map !== null) {
-      offersLocation.forEach((offerLocation, index) => {
+      filteredOffersLocation.forEach((offerLocation, index) => {
         const marker = new Marker({
           lat: offerLocation.latitude,
           lng: offerLocation.longitude,
@@ -49,7 +49,7 @@ function Map(props: MapProps): JSX.Element {
           .addTo(map);
       });
     }
-  }, [map, offersLocation, currentCity, activeCard, filteredOffers]);
+  }, [map, filteredOffersLocation, currentCity, activeCard, filteredOffers]);
 
   return (
     <section

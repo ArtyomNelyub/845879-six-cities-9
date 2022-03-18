@@ -163,7 +163,7 @@ export const offers: Offers = [
   },
 ];
 
-export const CITIES: City[] = [
+export const cities: City[] = [
   {
     location: {
       latitude: 48.864716,
