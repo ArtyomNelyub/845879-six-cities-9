@@ -1,15 +1,10 @@
-export type CityLocation = {
+export type OfferLocation = {
   latitude: number;
   longitude: number;
-  zoom: number;
-};
-
-export type RentPoint = {
-  latitude: number;
-  longitude: number;
+  zoom?: number;
 }
 
-export type RentPoints = RentPoint[];
+export type OffersLocation = OfferLocation[];
 
 export type Review = {
   urlAuthorAvatar: string;
@@ -22,12 +17,9 @@ export type Review = {
 
 export type Reviews = Review[];
 
-export type OfferType = {
+export type Offer = {
   bedrooms?: number;
-  city?: {
-    location: CityLocation;
-    name: string;
-  };
+  city: City;
   description?: string;
   goods?: [string];
   host?: {
@@ -40,11 +32,7 @@ export type OfferType = {
   images?: [string];
   isFavorite?: boolean;
   isPremium?: boolean;
-  location?: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: OfferLocation;
   maxAdults?: number;
   previewImage?: string;
   price: number;
@@ -53,4 +41,18 @@ export type OfferType = {
   type?: string;
 };
 
-export type OffersType = OfferType[];
+export type Offers = Offer[];
+
+export type City =  {
+  location: {
+    latitude: number,
+    longitude: number,
+    zoom: number,
+  },
+  name: string,
+};
+
+export type MarkerLayer = {
+  lat: number,
+  lng: number,
+};

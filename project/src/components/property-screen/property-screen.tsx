@@ -1,12 +1,16 @@
 import FormPropertyScreen from './form-property-screen';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
-import ReviewList from './review-list';
-import { reviews, rentPoints, cityLocation, offers } from '../../mocks/mocks';
+import ReviewListScreen from './review-list';
+import { reviews, offers as mockOffers } from '../../mocks/mocks';
 import Map from '../map/map';
 import OfferCardList from '../offer-card/offer-card-list';
+import { useAppSelector } from '../../hooks/';
 
 function PropertyScreen(): JSX.Element {
+  const offersLocation = mockOffers.map((offer) => offer.location);
+  const { currentCity } = useAppSelector((state) => state);
+
   return (
     <>
       <SVGContainer />
@@ -153,15 +157,14 @@ function PropertyScreen(): JSX.Element {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <ReviewList reviews={reviews} />
+                  <ReviewListScreen reviews={reviews} />
                   <FormPropertyScreen />
                 </section>
               </div>
             </div>
             <Map
-              cityLocation={cityLocation}
-              rentPoints={rentPoints.slice(0, 3)}
-              isMainScreen={false}
+              currentCity={currentCity}
+              offersLocation={offersLocation.slice(0, 3)}
             />
           </section>
           <div className="container">
@@ -171,8 +174,8 @@ function PropertyScreen(): JSX.Element {
               </h2>
               <div className="near-places__list places__list">
                 <OfferCardList
-                  offers={offers.slice(0, 3)}
-                  isMainScreen={false}
+                  offers={mockOffers.slice(0, 3)}
+                  handleCardHover = {()=>undefined}
                 />
               </div>
             </section>

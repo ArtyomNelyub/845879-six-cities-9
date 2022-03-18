@@ -1,27 +1,23 @@
 import OfferCard from './offer-card';
-import { OffersType } from '../../types/offers-type';
-import { useState } from 'react';
+import { Offers } from '../../types/types';
 
-type PropsOfferList = {
-  offers: OffersType;
-  isMainScreen: boolean;
+type OfferListProps = {
+  offers: Offers;
+  handleCardHover: (id:number | undefined)=>void | undefined;
+  isMainScreen?: boolean;
 };
 
-function OfferCardList(propsOffersList: PropsOfferList): JSX.Element {
-  const { offers, isMainScreen} = propsOffersList;
-  const [, setActiveCardId] = useState<number | undefined>(undefined);
-  const handleCardHover = (id: number | undefined) => {
-    setActiveCardId(id);
-  };
+function OfferCardList(props: OfferListProps): JSX.Element {
+  const { offers, isMainScreen, handleCardHover} = props;
 
   return (
     <>
-      {offers.map((item) => (
+      {offers.map((offer) => (
         <OfferCard
-          key={item.id}
-          offer={item}
+          key={offer.id}
+          offer={offer}
           handleCardHover={handleCardHover}
-          isMainScreen = {isMainScreen}
+          isMainScreen={isMainScreen}
         />
       ))}
     </>

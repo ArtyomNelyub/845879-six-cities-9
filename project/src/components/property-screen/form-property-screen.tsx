@@ -36,7 +36,7 @@ function FormPropertyScreen(): JSX.Element {
             key={starValue}
             value={starValue}
             title={starTitles[index]}
-            cb={FormData}
+            handler={FormData}
           />
         ))}
       </div>

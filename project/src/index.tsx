@@ -1,21 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import {offers} from './mocks/mocks';
 import { AuthorizationStatus } from './const';
+import { Provider } from 'react-redux';
+import { store } from './store';
+
 
 const Setting = {
-  COUNT_OFFERS: 112358,
   AUTHORIZATION_STATUS:  AuthorizationStatus.Auth,
 };
 
 ReactDOM.render(
   <React.StrictMode>
-    <App
-      countOffers={Setting.COUNT_OFFERS}
-      offers={offers}
-      authorizationStatus = {Setting.AUTHORIZATION_STATUS}
-    />
+    <Provider store={store}>
+      <App
+        authorizationStatus = {Setting.AUTHORIZATION_STATUS}
+      />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

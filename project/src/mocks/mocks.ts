@@ -1,17 +1,9 @@
-import { OffersType, CityLocation, RentPoints, Reviews } from '../types/offers-type';
+import { Offers, Reviews, City } from '../types/types';
 
-export const cityLocation: CityLocation = {
-  latitude: 52.370216,
-  longitude: 4.895168,
-  zoom: 10,
+export const city: City = {
+  location: { latitude: 52.370216, longitude: 4.895168, zoom: 10 },
+  name: 'Amsterdam',
 };
-
-export const rentPoints: RentPoints = [
-  { latitude: 52.3909553943508, longitude: 4.85309666406198 },
-  { latitude: 52.369553943508, longitude: 4.85309666406198 },
-  { latitude: 52.3909553943508, longitude: 4.929309666406198 },
-  { latitude: 52.3809553943508, longitude: 4.939309666406198 },
-];
 
 export const reviews: Reviews = [
   {
@@ -20,7 +12,7 @@ export const reviews: Reviews = [
     authorRating: '80%',
     reviewText: 'norm',
     reviewData: '25 spt 2021',
-    reviewId : '1',
+    reviewId: '1',
   },
   {
     urlAuthorAvatar: 'img/avatar-max.jpg',
@@ -30,20 +22,18 @@ export const reviews: Reviews = [
     reviewData: '01 spt 2021',
     reviewId: '2',
   },
-
-
 ];
 
-export const offers: OffersType = [
+export const offers: Offers = [
   {
     bedrooms: 1,
     city: {
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 48.864716,
+        longitude: 2.349014,
         zoom: 10,
       },
-      name: 'Amsterdam',
+      name: 'Paris',
     },
     description: 'description1',
     goods: ['goods1'],
@@ -58,8 +48,8 @@ export const offers: OffersType = [
     isFavorite: true,
     isPremium: true,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 48.9,
+      longitude: 2.5,
       zoom: 8,
     },
     maxAdults: 4,
@@ -73,11 +63,11 @@ export const offers: OffersType = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 48.864716,
+        longitude: 2.349014,
         zoom: 10,
       },
-      name: 'Amsterdam',
+      name: 'Paris',
     },
     description: 'description2',
     goods: ['goods2'],
@@ -92,8 +82,8 @@ export const offers: OffersType = [
     isFavorite: true,
     isPremium: false,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 48.86476,
+      longitude: 2.34906,
       zoom: 8,
     },
     maxAdults: 4,
@@ -107,11 +97,11 @@ export const offers: OffersType = [
     bedrooms: 3,
     city: {
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 50.8505,
+        longitude: 4.3488,
         zoom: 10,
       },
-      name: 'Amsterdam',
+      name: 'Brussels',
     },
     description: 'description3',
     goods: ['goods3'],
@@ -126,8 +116,8 @@ export const offers: OffersType = [
     isFavorite: true,
     isPremium: true,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      latitude: 50.8508,
+      longitude: 4.3481,
       zoom: 8,
     },
     maxAdults: 4,
@@ -170,5 +160,56 @@ export const offers: OffersType = [
     rating: 4.8,
     title: 'title4',
     type: 'apartment4',
+  },
+];
+
+export const cities: City[] = [
+  {
+    location: {
+      latitude: 48.864716,
+      longitude: 2.349014,
+      zoom: 10,
+    },
+    name: 'Paris',
+  },
+  {
+    location: {
+      latitude: 50.935173,
+      longitude: 6.953101,
+      zoom: 10,
+    },
+    name: 'Cologne',
+  },
+  {
+    location: {
+      latitude: 50.8505,
+      longitude: 4.3488,
+      zoom: 10,
+    },
+    name: 'Brussels',
+  },
+  {
+    location: {
+      latitude: 52.377956,
+      longitude: 4.89707,
+      zoom: 10,
+    },
+    name: 'Amsterdam',
+  },
+  {
+    location: {
+      latitude: 53.551086,
+      longitude: 9.993682,
+      zoom: 10,
+    },
+    name: 'Hamburg',
+  },
+  {
+    location: {
+      latitude: 51.233334,
+      longitude: 6.783333,
+      zoom: 10,
+    },
+    name: 'Dusseldorf',
   },
 ];

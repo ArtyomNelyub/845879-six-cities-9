@@ -1,10 +1,10 @@
-import { Review } from '../../types/offers-type';
+import { Review } from '../../types/types';
 
-type ReviewType = {
+type ReviewCardProps = {
   review: Review;
 };
 
-function ReviewScreen(props: ReviewType): JSX.Element {
+function ReviewScreen(props: ReviewCardProps): JSX.Element {
   const { review } = props;
 
   return (

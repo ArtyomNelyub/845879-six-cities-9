@@ -1,40 +1,37 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
-import { CityLocation, RentPoints } from '../../types/offers-type';
-import { URL_MARKER_DEFAULT } from '../../const';
+import { City, OffersLocation } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
 
+type MapProps = {
+  currentCity: City;
+  offersLocation: OffersLocation;
+  isMainScreen?: boolean;
+};
+
 const defaultIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: 'img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
-type MapProps = {
-  cityLocation: CityLocation;
-  rentPoints: RentPoints;
-  isMainScreen: boolean;
-};
-
 function Map(props: MapProps): JSX.Element {
-  const { cityLocation, rentPoints, isMainScreen } = props;
-
+  const { currentCity, offersLocation, isMainScreen = false } = props;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, cityLocation);
+  const map = useMap(mapRef, currentCity, offersLocation);
 
   useEffect(() => {
-    if (map) {
-      rentPoints.forEach((rentPoint) => {
+    if (map !== null) {
+      offersLocation.forEach((offerLocation) => {
         const marker = new Marker({
-          lat: rentPoint.latitude,
-          lng: rentPoint.longitude,
+          lat: offerLocation.latitude,
+          lng: offerLocation.longitude,
         });
-
         marker.setIcon(defaultIcon).addTo(map);
       });
     }
-  }, [map, rentPoints]);
+  }, [map, offersLocation, currentCity]);
 
   return (
     <section
