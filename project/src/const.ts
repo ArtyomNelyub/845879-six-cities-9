@@ -11,17 +11,11 @@ export enum AuthorizationStatus {
   UNKNOWN = 'UNKNOWN',
 }
 
-export const starValues: string[] = [
-  '5-stars',
-  '4-stars',
-  '3-stars',
-  '2-stars',
-  '1-star',
-];
-export const starTitles: string[] = [
-  'perfect',
-  'good',
-  'not bad',
-  'badly',
-  'terribly',
-];
+export enum APIRouts {
+  Hotels = '/hotels',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout ='/logout',
+}
+

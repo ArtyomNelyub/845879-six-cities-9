@@ -2,13 +2,14 @@ import FormPropertyScreen from './form-property-screen';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import ReviewListScreen from './review-list';
-import { reviews, offers as mockOffers } from '../../mocks/mocks';
+import { reviews } from '../../mocks/mocks';
 import Map from '../map/map';
 import OfferCardList from '../offer-card/offer-card-list';
 import { useAppSelector } from '../../hooks/';
 
 function PropertyScreen(): JSX.Element {
-  const mockOffersLocation = mockOffers.map((offer) => offer.location);
+  const {offers} = useAppSelector((state)=>state);
+  const offersLocation = offers.map((offer) => offer.location);
   const { currentCity } = useAppSelector((state) => state);
 
   return (
@@ -164,9 +165,9 @@ function PropertyScreen(): JSX.Element {
             </div>
             <Map
               currentCity={currentCity}
-              activeCard={mockOffers[0].id}
-              filteredOffers={mockOffers.slice(0.3)}
-              filteredOffersLocation={mockOffersLocation.slice(0,3)}
+              activeCard={offers[0].id}
+              filteredOffers={offers.slice(0.3)}
+              filteredOffersLocation={offersLocation.slice(0,3)}
             />
           </section>
           <div className="container">
@@ -176,7 +177,7 @@ function PropertyScreen(): JSX.Element {
               </h2>
               <div className="near-places__list places__list">
                 <OfferCardList
-                  offers={mockOffers.slice(0, 3)}
+                  offers={offers.slice(0, 3)}
                 />
               </div>
             </section>

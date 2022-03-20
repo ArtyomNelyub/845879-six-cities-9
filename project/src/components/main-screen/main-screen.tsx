@@ -1,20 +1,16 @@
 import OfferCardList from '../offer-card/offer-card-list';
-import { offers as mockOffers } from '../../mocks/mocks';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityList from './city-list';
-import { useAppDispatch, useAppSelector } from '../../hooks/';
-import { loadOffers } from '../../store/action';
+import { useAppSelector } from '../../hooks/';
 import { OffersLocation, Offers } from '../../types/types';
 import MainEmptyScreen from './main-empty-screen';
 import { useState } from 'react';
 import SortOptions from './sort-options';
 
-function MainScreen(): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(loadOffers({ offers: mockOffers }));
 
+function MainScreen(): JSX.Element {
   const [sortBy, setSortBy] = useState<string>('Popular');
   const handleSortOptions = (SortOption: string): string => {
     setSortBy(SortOption);
