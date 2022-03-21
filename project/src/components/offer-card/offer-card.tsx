@@ -1,6 +1,6 @@
 import { Offer } from '../../types/types';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, MAX_STAR_VALUE } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
@@ -10,7 +10,8 @@ type OfferCardProps = {
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const { offer, handleCardHover, isMainScreen = false } = props;
-  const rating = (Math.round(offer.rating*100/5*100)/100).toString();
+
+  const rating = (Math.round(offer.rating*100/MAX_STAR_VALUE*100)/100).toString();
 
   return (
     <article

@@ -1,20 +1,20 @@
+import MainEmptyScreen from './main-empty-screen';
 import OfferCardList from '../offer-card/offer-card-list';
+import SortOptions from './sort-options';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityList from './city-list';
 import { useAppSelector } from '../../hooks/';
-import { OffersLocation, Offers } from '../../types/types';
-import MainEmptyScreen from './main-empty-screen';
+import { Offers } from '../../types/types';
 import { useState } from 'react';
-import SortOptions from './sort-options';
+import { SortMethods } from '../../const';
 
 
 function MainScreen(): JSX.Element {
   const [sortBy, setSortBy] = useState<string>('Popular');
-  const handleSortOptions = (SortOption: string): string => {
+  const handleSortOptions = (SortOption: string): void => {
     setSortBy(SortOption);
-    return SortOption;
   };
 
   const changeOrderOffers = function (
@@ -22,13 +22,13 @@ function MainScreen(): JSX.Element {
     currentFilteredOffers: Offers,
   ): Offers {
     switch (sortMethod) {
-      case 'Price: low to high':
+      case SortMethods.PRICE_LOW_TO_HIGH:
         return currentFilteredOffers.sort((a, b) => a.price - b.price);
-      case 'Price: high to low':
+      case SortMethods.PRICE_HIGH_TO_LOW:
         return currentFilteredOffers.sort((a, b) => b.price - a.price);
-      case 'Top rated first':
+      case SortMethods.TOP_RATED_FIRST:
         return currentFilteredOffers.sort((a, b) => b.rating - a.rating);
-      case 'Popular':
+      case SortMethods.POPULAR:
       default:
         return currentFilteredOffers;
     }
@@ -44,9 +44,6 @@ function MainScreen(): JSX.Element {
     (offer) => offer.city.name === currentCity.name,
   );
   const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
-  const sortedFilteredOffersLocation: OffersLocation = sortedFilteredOffers.map(
-    (offer) => offer.location,
-  );
 
   return (
     <>
@@ -83,8 +80,7 @@ function MainScreen(): JSX.Element {
                   <Map
                     currentCity={currentCity}
                     activeCard={activeCard}
-                    filteredOffers={sortedFilteredOffers}
-                    filteredOffersLocation={sortedFilteredOffersLocation}
+                    offers={sortedFilteredOffers}
                     key={currentCity.name}
                     isMainScreen
                   />

@@ -8,9 +8,7 @@ import OfferCardList from '../offer-card/offer-card-list';
 import { useAppSelector } from '../../hooks/';
 
 function PropertyScreen(): JSX.Element {
-  const {offers} = useAppSelector((state)=>state);
-  const offersLocation = offers.map((offer) => offer.location);
-  const { currentCity } = useAppSelector((state) => state);
+  const { currentCity, offers } = useAppSelector((state) => state);
 
   return (
     <>
@@ -166,8 +164,7 @@ function PropertyScreen(): JSX.Element {
             <Map
               currentCity={currentCity}
               activeCard={offers[0].id}
-              filteredOffers={offers.slice(0.3)}
-              filteredOffersLocation={offersLocation.slice(0,3)}
+              offers={offers.slice(0.3)}
             />
           </section>
           <div className="container">

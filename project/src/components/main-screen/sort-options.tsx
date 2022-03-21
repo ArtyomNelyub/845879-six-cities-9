@@ -1,11 +1,7 @@
 import { useState } from 'react';
+import { SortMethods } from '../../const';
 
-const sortMethods: string[] = [
-  'Popular',
-  'Price: low to high',
-  'Price: high to low',
-  'Top rated first',
-];
+const sortMethods: string[] = Object.values(SortMethods);
 
 type SortOptionsProps = {
   handleSortOptions:(sortOption: string)=>void
