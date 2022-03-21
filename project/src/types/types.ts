@@ -36,7 +36,7 @@ export type Offer = {
   maxAdults?: number;
   previewImage?: string;
   price: number;
-  rating?: number;
+  rating: number;
   title?: string;
   type?: string;
 };

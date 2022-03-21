@@ -1,32 +1,53 @@
+import MainEmptyScreen from './main-empty-screen';
 import OfferCardList from '../offer-card/offer-card-list';
-import { offers as mockOffers } from '../../mocks/mocks';
+import SortOptions from './sort-options';
 import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityList from './city-list';
 import { useAppDispatch, useAppSelector } from '../../hooks/';
 import { loadOffers } from '../../store/action';
-import { OffersLocation, Offers } from '../../types/types';
-import MainEmptyScreen from './main-empty-screen';
+import { Offers } from '../../types/types';
 import { useState } from 'react';
+import { SortMethods } from '../../const';
+import { offers as mockOffers } from '../../mocks/mocks';
 
 function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   dispatch(loadOffers({ offers: mockOffers }));
 
+  const [sortBy, setSortBy] = useState<string>('Popular');
+  const handleSortOptions = (SortOption: string): void => {
+    setSortBy(SortOption);
+  };
+
+  const changeOrderOffers = function (
+    sortMethod: string,
+    currentFilteredOffers: Offers,
+  ): Offers {
+    switch (sortMethod) {
+      case SortMethods.PRICE_LOW_TO_HIGH:
+        return currentFilteredOffers.sort((a, b) => a.price - b.price);
+      case SortMethods.PRICE_HIGH_TO_LOW:
+        return currentFilteredOffers.sort((a, b) => b.price - a.price);
+      case SortMethods.TOP_RATED_FIRST:
+        return currentFilteredOffers.sort((a, b) => b.rating - a.rating);
+      case SortMethods.POPULAR:
+      default:
+        return currentFilteredOffers;
+    }
+  };
+
+  const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
+  const handleCardHover = (id: number | undefined): void => {
+    setActiveCard(id);
+  };
+
   const { offers, currentCity } = useAppSelector((state) => state);
   const filteredOffers: Offers = offers.filter(
     (offer) => offer.city.name === currentCity.name,
   );
-
-  const filteredOffersLocation: OffersLocation = filteredOffers.map(
-    (offer) => offer.location,
-  );
-
-  const [, setActiveCard] = useState<number | undefined>(undefined);
-  const handleCardHover = (id:number | undefined) : void => {
-    setActiveCard(id);
-  };
+  const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
 
   return (
     <>
@@ -40,7 +61,7 @@ function MainScreen(): JSX.Element {
               <CityList />
             </section>
           </div>
-          {filteredOffersLocation.length === 0 ? (
+          {filteredOffers.length === 0 ? (
             <MainEmptyScreen currentCity={currentCity.name} />
           ) : (
             <div className="cities">
@@ -50,39 +71,10 @@ function MainScreen(): JSX.Element {
                   <b className="places__found">
                     {filteredOffers.length} places to stay in {currentCity.name}
                   </b>
-                  <form className="places__sorting" action="#" method="get">
-                    <span className="places__sorting-caption">Sort by</span>
-                    <span className="places__sorting-type" tabIndex={0}>
-                      Popular
-                      <svg
-                        className="places__sorting-arrow"
-                        width="7"
-                        height="4"
-                      >
-                        <use xlinkHref="#icon-arrow-select"></use>
-                      </svg>
-                    </span>
-                    <ul className="places__options places__options--custom places__options--opened">
-                      <li
-                        className="places__option places__option--active"
-                        tabIndex={0}
-                      >
-                        Popular
-                      </li>
-                      <li className="places__option" tabIndex={0}>
-                        Price: low to high
-                      </li>
-                      <li className="places__option" tabIndex={0}>
-                        Price: high to low
-                      </li>
-                      <li className="places__option" tabIndex={0}>
-                        Top rated first
-                      </li>
-                    </ul>
-                  </form>
+                  <SortOptions handleSortOptions={handleSortOptions} />
                   <div className="cities__places-list places__list tabs__content">
                     <OfferCardList
-                      offers={filteredOffers}
+                      offers={sortedFilteredOffers}
                       handleCardHover={handleCardHover}
                       isMainScreen
                     />
@@ -91,7 +83,8 @@ function MainScreen(): JSX.Element {
                 <div className="cities__right-section">
                   <Map
                     currentCity={currentCity}
-                    offersLocation={filteredOffersLocation}
+                    activeCard={activeCard}
+                    offers={sortedFilteredOffers}
                     key={currentCity.name}
                     isMainScreen
                   />

@@ -8,7 +8,6 @@ import OfferCardList from '../offer-card/offer-card-list';
 import { useAppSelector } from '../../hooks/';
 
 function PropertyScreen(): JSX.Element {
-  const offersLocation = mockOffers.map((offer) => offer.location);
   const { currentCity } = useAppSelector((state) => state);
 
   return (
@@ -164,7 +163,8 @@ function PropertyScreen(): JSX.Element {
             </div>
             <Map
               currentCity={currentCity}
-              offersLocation={offersLocation.slice(0, 3)}
+              activeCard={mockOffers[0].id}
+              offers={mockOffers.slice(0.3)}
             />
           </section>
           <div className="container">
@@ -175,7 +175,6 @@ function PropertyScreen(): JSX.Element {
               <div className="near-places__list places__list">
                 <OfferCardList
                   offers={mockOffers.slice(0, 3)}
-                  handleCardHover = {()=>undefined}
                 />
               </div>
             </section>

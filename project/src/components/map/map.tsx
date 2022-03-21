@@ -1,12 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
-import { City, OffersLocation } from '../../types/types';
+import { City, Offers } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   currentCity: City;
-  offersLocation: OffersLocation;
+  activeCard: number | undefined;
+  offers: Offers;
   isMainScreen?: boolean;
 };
 
@@ -16,22 +17,37 @@ const defaultIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
+const activeIcon = new Icon({
+  iconUrl: 'img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
 function Map(props: MapProps): JSX.Element {
-  const { currentCity, offersLocation, isMainScreen = false } = props;
+  const {
+    currentCity,
+    activeCard,
+    offers,
+    isMainScreen = false,
+  } = props;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentCity, offersLocation);
+  const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
     if (map !== null) {
-      offersLocation.forEach((offerLocation) => {
+      offers.forEach((offer, index) => {
         const marker = new Marker({
-          lat: offerLocation.latitude,
-          lng: offerLocation.longitude,
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
         });
-        marker.setIcon(defaultIcon).addTo(map);
+        marker
+          .setIcon(
+            offers[index].id === activeCard ? activeIcon : defaultIcon,
+          )
+          .addTo(map);
       });
     }
-  }, [map, offersLocation, currentCity]);
+  }, [map, currentCity, activeCard, offers]);
 
   return (
     <section
