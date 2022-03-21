@@ -25,7 +25,7 @@ function FavoritesScreen(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {offers.map((offer) => (
+                    {offers.slice(0, 3).map((offer) => (
                       <CardScreen key={offer.id} offer={offer} />
                     ))}
                   </div>
@@ -40,7 +40,7 @@ function FavoritesScreen(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {offers.map((offer) => (
+                    {offers.slice(0, 2).map((offer) => (
                       <CardScreen key={offer.id} offer={offer} />
                     ))}
                   </div>

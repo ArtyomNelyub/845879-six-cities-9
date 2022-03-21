@@ -164,7 +164,7 @@ function PropertyScreen(): JSX.Element {
             <Map
               currentCity={currentCity}
               activeCard={offers[0].id}
-              offers={offers.slice(0.3)}
+              offers={offers.slice(0, 3)}
             />
           </section>
           <div className="container">
