@@ -1,14 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
-import { City, OffersLocation, Offers } from '../../types/types';
+import { City, Offers } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   currentCity: City;
   activeCard: number | undefined;
-  filteredOffers: Offers;
-  filteredOffersLocation: OffersLocation;
+  offers: Offers;
   isMainScreen?: boolean;
 };
 
@@ -28,28 +27,27 @@ function Map(props: MapProps): JSX.Element {
   const {
     currentCity,
     activeCard,
-    filteredOffers,
-    filteredOffersLocation,
+    offers,
     isMainScreen = false,
   } = props;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, currentCity, filteredOffersLocation);
+  const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
     if (map !== null) {
-      filteredOffersLocation.forEach((offerLocation, index) => {
+      offers.forEach((offer, index) => {
         const marker = new Marker({
-          lat: offerLocation.latitude,
-          lng: offerLocation.longitude,
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
         });
         marker
           .setIcon(
-            filteredOffers[index].id === activeCard ? activeIcon : defaultIcon,
+            offers[index].id === activeCard ? activeIcon : defaultIcon,
           )
           .addTo(map);
       });
     }
-  }, [map, filteredOffersLocation, currentCity, activeCard, filteredOffers]);
+  }, [map, currentCity, activeCard, offers]);
 
   return (
     <section

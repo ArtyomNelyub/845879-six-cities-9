@@ -18,6 +18,7 @@ export const starValues: string[] = [
   '2-stars',
   '1-star',
 ];
+
 export const starTitles: string[] = [
   'perfect',
   'good',
@@ -25,3 +26,12 @@ export const starTitles: string[] = [
   'badly',
   'terribly',
 ];
+
+export enum SortMethods {
+  POPULAR = 'Popular',
+  PRICE_LOW_TO_HIGH = 'Price: low to high',
+  PRICE_HIGH_TO_LOW = 'Price: high to low',
+  TOP_RATED_FIRST = 'Top rated first'
+}
+
+export const MAX_STAR_VALUE = 5;
