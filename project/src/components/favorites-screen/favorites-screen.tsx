@@ -1,10 +1,11 @@
-import { offers as mockOffers } from '../../mocks/mocks';
+import { useAppSelector } from '../../hooks';
 import CardScreen from './card-screen';
 import Footer from '../footer/footer';
 import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
 
 function FavoritesScreen(): JSX.Element {
+  const {offers} = useAppSelector((state)=>state);
   return (
     <>
       <SVGComponent />
@@ -24,7 +25,7 @@ function FavoritesScreen(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {mockOffers.map((offer) => (
+                    {offers.slice(0, 3).map((offer) => (
                       <CardScreen key={offer.id} offer={offer} />
                     ))}
                   </div>
@@ -39,7 +40,7 @@ function FavoritesScreen(): JSX.Element {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {mockOffers.map((offer) => (
+                    {offers.slice(0, 2).map((offer) => (
                       <CardScreen key={offer.id} offer={offer} />
                     ))}
                   </div>

@@ -5,17 +5,13 @@ import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityList from './city-list';
-import { useAppDispatch, useAppSelector } from '../../hooks/';
-import { loadOffers } from '../../store/action';
+import { useAppSelector } from '../../hooks/';
 import { Offers } from '../../types/types';
 import { useState } from 'react';
 import { SortMethods } from '../../const';
-import { offers as mockOffers } from '../../mocks/mocks';
+
 
 function MainScreen(): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(loadOffers({ offers: mockOffers }));
-
   const [sortBy, setSortBy] = useState<string>('Popular');
   const handleSortOptions = (SortOption: string): void => {
     setSortBy(SortOption);

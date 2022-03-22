@@ -5,12 +5,14 @@ import {cities as mockCities} from '../mocks/mocks';
 
 type State = {
   currentCity: City;
-  offers: Offers | [];
+  offers: Offers;
+  isDataLoaded: boolean;
 };
 
 const initialState: State = {
   currentCity: mockCities[0],
   offers: [],
+  isDataLoaded: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -19,7 +21,8 @@ const reducer = createReducer(initialState, (builder) => {
       state.currentCity = action.payload.selectedCity;
     })
     .addCase(loadOffers, (state, action) => {
-      state.offers = action.payload.offers;
+      state.offers = action.payload;
+      state.isDataLoaded = true;
     });
 });
 

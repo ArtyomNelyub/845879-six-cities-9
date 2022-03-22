@@ -1,11 +1,18 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import Star from './star';
-import { starValues, starTitles } from '../../const';
 
 type FormData = {
   rating: string;
   review: string;
 };
+
+const starTitles: string[] = [
+  'perfect',
+  'good',
+  'not bad',
+  'badly',
+  'terribly',
+];
 
 function FormPropertyScreen(): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
@@ -31,11 +38,11 @@ function FormPropertyScreen(): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {starValues.map((starValue, index) => (
+        {starTitles.map((starTitle, index) => (
           <Star
-            key={starValue}
-            value={starValue}
-            title={starTitles[index]}
+            key={starTitle}
+            index={index.toString()}
+            title={starTitle}
             handler={FormData}
           />
         ))}
