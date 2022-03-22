@@ -28,3 +28,11 @@ export enum SortMethods {
 
 export const MAX_STAR_VALUE = 5;
 
+export enum HTTP_CODE {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
+}
+
+export const TIMEOUT_SHOW_ERROR = 2000;
+
