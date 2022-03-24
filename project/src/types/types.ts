@@ -52,7 +52,18 @@ export type City =  {
   name: string,
 };
 
-export type MarkerLayer = {
-  lat: number,
-  lng: number,
+export type AuthData = {
+  login : string;
+  password : string;
+}
+
+export type UserData = {
+  avatarUrl: string
+  email: string
+  id: number
+  isPro: boolean
+  name: string
+  token: string
 };
+
+export type ErrorType = unknown;

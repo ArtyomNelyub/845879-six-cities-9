@@ -5,31 +5,23 @@ import PropertyScreen from '../property-screen/property-screen';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { AuthorizationStatus } from '../../const';
-import {store} from '../../store/index';
-import {fetchOffers} from '../../store/api-actions';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { Routes, Route } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
-type AppScreen = {
-  authorizationStatus:  AuthorizationStatus;
-};
+function App(): JSX.Element {
+  const {isDataLoaded, authorizationStatus} = useAppSelector((state)=> state);
 
-function App(props: AppScreen): JSX.Element {
-  const { authorizationStatus} = props;
-
-  const isDataLoaded = useAppSelector((state)=> state.isDataLoaded);
-  store.dispatch(fetchOffers());
-
-  if (!isDataLoaded) {
+  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !isDataLoaded) {
     return (
       <LoadingScreen />
     );
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -39,7 +31,7 @@ function App(props: AppScreen): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
+            <PrivateRoute>
               <FavoritesScreen />
             </PrivateRoute>
           }
@@ -50,7 +42,7 @@ function App(props: AppScreen): JSX.Element {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

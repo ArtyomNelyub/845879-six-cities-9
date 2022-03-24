@@ -74,7 +74,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Room}>{offer.description}</Link>
+          <Link to={AppRoute.Room}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
