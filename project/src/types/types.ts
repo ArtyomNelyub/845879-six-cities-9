@@ -18,27 +18,27 @@ export type Review = {
 export type Reviews = Review[];
 
 export type Offer = {
-  bedrooms?: number;
+  bedrooms: number;
   city: City;
   description?: string;
-  goods?: [string];
-  host?: {
+  goods: [string];
+  host: {
     avatarUrl: string;
     id: number;
     isPro: boolean;
     name: string;
   };
-  id?: number;
-  images?: [string];
-  isFavorite?: boolean;
-  isPremium?: boolean;
+  id: number;
+  images: [string];
+  isFavorite: boolean;
+  isPremium: boolean;
   location: OfferLocation;
-  maxAdults?: number;
-  previewImage?: string;
+  maxAdults: number;
+  previewImage: string;
   price: number;
   rating: number;
-  title?: string;
-  type?: string;
+  title: string;
+  type: string;
 };
 
 export type Offers = Offer[];

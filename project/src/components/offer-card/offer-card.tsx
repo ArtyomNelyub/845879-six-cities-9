@@ -44,7 +44,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
             : 'near-places__image-wrapper place-card__image-wrapper'
         }
       >
-        <Link to={AppRoute.Room}>
+        <Link to={`${AppRoute.Room}/${offer.id}`}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -74,7 +74,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={AppRoute.Room}>{offer.title}</Link>
+          <Link to={`${AppRoute.Room}/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
@@ -83,3 +83,4 @@ function OfferCard(props: OfferCardProps): JSX.Element {
 }
 
 export default OfferCard;
+

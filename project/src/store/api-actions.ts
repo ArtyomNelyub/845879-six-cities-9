@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, store } from './index';
-import { AuthData, Offers, UserData } from '../types/types';
-import { loadOffers, redirectToRoute, requireAuthorization, setError } from './action';
+import { AuthData, Offers, UserData, Offer } from '../types/types';
+import { loadOffers, loadSelectedOffer, redirectToRoute, requireAuthorization, setError } from './action';
 import { APIRouts, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { errorHandle } from '../services/errorHandle';
@@ -22,6 +22,18 @@ export const fetchOffersAction = createAsyncThunk(
     try {
       const {data} = await api.get<Offers>(APIRouts.Hotels);
       store.dispatch(loadOffers(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const fetchSelectedOfferAction = createAsyncThunk(
+  'data/fetchSelectedOffer',
+  async (id: string | undefined) => {
+    try {
+      const {data} = await api.get<Offer>(`${APIRouts.Hotels}/${id}`);
+      store.dispatch(loadSelectedOffer(data));
     } catch (error) {
       errorHandle(error);
     }
