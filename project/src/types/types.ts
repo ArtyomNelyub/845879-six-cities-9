@@ -7,12 +7,16 @@ export type OfferLocation = {
 export type OffersLocation = OfferLocation[];
 
 export type Review = {
-  urlAuthorAvatar: string;
-  authorName: string;
-  authorRating: string;
-  reviewText: string;
-  reviewData: string;
-  reviewId: string;
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: {
+    avatarUrl: string;
+    id: number;
+    isPro: boolean;
+    name: string;
+  }
 }
 
 export type Reviews = Review[];
@@ -20,7 +24,7 @@ export type Reviews = Review[];
 export type Offer = {
   bedrooms: number;
   city: City;
-  description?: string;
+  description: string;
   goods: [string];
   host: {
     avatarUrl: string;
@@ -67,3 +71,9 @@ export type UserData = {
 };
 
 export type ErrorType = unknown;
+
+
+export type CommentData = {
+  review: string;
+  rating: string;
+};

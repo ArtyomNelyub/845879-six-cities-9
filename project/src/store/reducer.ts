@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, loadOffers, requireAuthorization, setError, loadSelectedOffer } from './action';
-import { City, Offers, Offer } from '../types/types';
+import { selectCity, loadOffers, requireAuthorization, setError, loadSelectedOffer, loadComments, loadNearbyOffers } from './action';
+import { City, Offers, Offer, Reviews } from '../types/types';
 import { cities as mockCities } from '../mocks/mocks';
 import { AuthorizationStatus } from '../const';
 
@@ -12,6 +12,8 @@ type InitialState = {
   authorizationStatus:  AuthorizationStatus;
   error: string;
   selectedOffer: Offer | null;
+  offerComments: Reviews;
+  nearbyOffers: Offers,
 };
 
 const initialState: InitialState = {
@@ -21,6 +23,8 @@ const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   error: '',
   selectedOffer: null,
+  offerComments: [],
+  nearbyOffers: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -40,6 +44,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadSelectedOffer, (state, action) => {
       state.selectedOffer = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.offerComments = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
     });
 });
 

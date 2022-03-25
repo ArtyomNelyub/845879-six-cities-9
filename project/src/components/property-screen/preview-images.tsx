@@ -12,7 +12,7 @@ function PreviewImages(props: PreviewImagesProp): JSX.Element {
   return (
     <div className="property__gallery">
       {offerImages.slice(0, MAX_IMAGES_PREVIEW).map((image) => (
-        <div className="property__image-wrapper" key ='image'>
+        <div className="property__image-wrapper" key ={image}>
           <img
             className="property__image"
             src={image}

@@ -16,7 +16,7 @@ function ReviewListScreen(props: ReviewListProps): JSX.Element {
       </h2>
       <ul className="reviews__list">
         {reviews.map((review) => (
-          <ReviewScreen review={review} key={review.reviewId} />
+          <ReviewScreen review={review} key={review.id} />
         ))}
       </ul>
     </>

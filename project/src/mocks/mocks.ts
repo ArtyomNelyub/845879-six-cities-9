@@ -1,28 +1,4 @@
-import { Reviews, City } from '../types/types';
-
-export const city: City = {
-  location: { latitude: 52.370216, longitude: 4.895168, zoom: 10 },
-  name: 'Amsterdam',
-};
-
-export const reviews: Reviews = [
-  {
-    urlAuthorAvatar: 'img/avatar-angelina.jpg',
-    authorName: 'Kate',
-    authorRating: '80%',
-    reviewText: 'norm',
-    reviewData: '25 spt 2021',
-    reviewId: '1',
-  },
-  {
-    urlAuthorAvatar: 'img/avatar-max.jpg',
-    authorName: 'Max',
-    authorRating: '60%',
-    reviewText: 'so so',
-    reviewData: '01 spt 2021',
-    reviewId: '2',
-  },
-];
+import { City } from '../types/types';
 
 export const cities: City[] = [
   {

@@ -1,12 +1,11 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import Star from './star';
+import { CommentData } from '../../types/types';
+import { useParams } from 'react-router-dom';
+import { store } from '../../store';
+import { sendComment } from '../../store/api-actions';
 
-type FormData = {
-  rating: string;
-  review: string;
-};
-
-const starTitles: string[] = [
+const STAR_TITLES: string[] = [
   'perfect',
   'good',
   'not bad',
@@ -15,10 +14,14 @@ const starTitles: string[] = [
 ];
 
 function FormPropertyScreen(): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({
-    rating: '',
+  const [formData, setFormData] = useState<CommentData>({
     review: '',
+    rating: '',
   });
+
+  const {id} = useParams();
+  const stringId = id as string;
+
 
   function FormData(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = evt.target;
@@ -32,17 +35,18 @@ function FormPropertyScreen(): JSX.Element {
       method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
+        store.dispatch(sendComment({id: stringId , ...formData}));
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {starTitles.map((starTitle, index) => (
+        {STAR_TITLES.map((title, index) => (
           <Star
-            key={starTitle}
+            key={title}
             index={index.toString()}
-            title={starTitle}
+            title={title}
             handler={FormData}
           />
         ))}
@@ -63,7 +67,6 @@ function FormPropertyScreen(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
         >
           Submit
         </button>

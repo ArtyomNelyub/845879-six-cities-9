@@ -3,7 +3,7 @@ import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/index';
 import { logoutAction } from '../../store/api-actions';
 
-function AuthorizedList(): JSX.Element {
+function Authorized(): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
@@ -35,4 +35,4 @@ function AuthorizedList(): JSX.Element {
   );
 }
 
-export default AuthorizedList;
+export default Authorized;

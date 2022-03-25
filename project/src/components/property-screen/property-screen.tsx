@@ -4,33 +4,61 @@ import Header from '../header/header';
 import ReviewListScreen from './review-list';
 import Map from '../map/map';
 import OfferCardList from '../offer-card/offer-card-list';
-import { reviews } from '../../mocks/mocks';
 import { useAppSelector } from '../../hooks/';
 import PreviewImages from './preview-images';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { store } from '../../store';
-import { fetchSelectedOfferAction } from '../../store/api-actions';
-import { loadSelectedOffer } from '../../store/action';
+import {
+  fetchLoadComments,
+  fetchSelectedOfferAction,
+  fetchLoadNearbyOffers
+} from '../../store/api-actions';
+import { loadNearbyOffers, loadSelectedOffer } from '../../store/action';
 import NotFound from '../not-found/not-found';
-import { MAX_STAR_VALUE } from '../../const';
+import { MAX_STAR_VALUE, AuthorizationStatus } from '../../const';
+import { useParams } from 'react-router-dom';
+import { Offer } from '../../types/types';
+import { useEffect } from 'react';
+
+store.dispatch(loadNearbyOffers([]));
+store.dispatch(loadSelectedOffer(null));
 
 function PropertyScreen(): JSX.Element {
-  const { currentCity, offers, isDataLoaded, selectedOffer } = useAppSelector(
-    (state) => state,
-  );
-  const {id} = useParams<string>();
+  const {
+    currentCity,
+    offers,
+    isDataLoaded,
+    selectedOffer,
+    authorizationStatus,
+    offerComments,
+    nearbyOffers,
+  } = useAppSelector((state) => state);
 
-  if (!offers.map((offer)=> offer.id.toString()).includes(id)) {
-    return (
-      <NotFound />
+  const { id } = useParams();
+  const stringId = id as string;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      store.dispatch(fetchSelectedOfferAction(stringId));
+    }
+    store.dispatch(fetchLoadComments(stringId));
+    store.dispatch(fetchLoadNearbyOffers(stringId));
+  }, [stringId]);
+
+  if (isDataLoaded) {
+    const checkCurrentOffer: Offer | undefined = offers.find(
+      (offer) => offer.id.toString() === stringId,
     );
+    if (checkCurrentOffer !== undefined) {
+      store.dispatch(loadSelectedOffer(checkCurrentOffer));
+    }
   }
 
-  isDataLoaded
-    ? store.dispatch(loadSelectedOffer(offers.find((offer)=> offer.id.toString() === id)))
-    : store.dispatch(fetchSelectedOfferAction(id));
+  if (!offers.map((offer) => offer.id.toString()).includes(stringId)) {
+    return <NotFound />;
+  }
 
-  if (!selectedOffer) {
+  if (selectedOffer === null) {
     return <LoadingScreen />;
   }
 
@@ -43,7 +71,6 @@ function PropertyScreen(): JSX.Element {
       <SVGContainer />
       <div className="page">
         <Header />
-
         <main className="page__main page__main--property">
           <section className="property">
             <div className="property__gallery-container container">
@@ -94,7 +121,9 @@ function PropertyScreen(): JSX.Element {
                   </li>
                 </ul>
                 <div className="property__price">
-                  <b className="property__price-value">&euro;{selectedOffer.price}</b>
+                  <b className="property__price-value">
+                    &euro;{selectedOffer.price}
+                  </b>
                   <span className="property__price-text">&nbsp;night</span>
                 </div>
                 <div className="property__inside">
@@ -127,19 +156,23 @@ function PropertyScreen(): JSX.Element {
                     ) : null}
                   </div>
                   <div className="property__description">
-                    <p className="property__text">{selectedOffer.description}</p>
+                    <p className="property__text">
+                      {selectedOffer.description}
+                    </p>
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <ReviewListScreen reviews={reviews} />
-                  <FormPropertyScreen />
+                  <ReviewListScreen reviews={offerComments} />
+                  {authorizationStatus === AuthorizationStatus.Auth ? (
+                    <FormPropertyScreen />
+                  ) : null}
                 </section>
               </div>
             </div>
             <Map
               currentCity={currentCity}
-              activeCard={offers[0].id}
-              offers={offers.slice(0, 3)}
+              activeCard={selectedOffer.id}
+              offers={[...nearbyOffers, selectedOffer]}
             />
           </section>
           <div className="container">
@@ -148,7 +181,7 @@ function PropertyScreen(): JSX.Element {
                 Other places in the neighbourhood
               </h2>
               <div className="near-places__list places__list">
-                <OfferCardList offers={offers.slice(0, 3)} />
+                <OfferCardList offers={nearbyOffers} />
               </div>
             </section>
           </div>
