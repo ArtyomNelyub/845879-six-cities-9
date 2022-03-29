@@ -1,19 +1,30 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { selectCity, loadOffers, requireAuthorization, setError, loadSelectedOffer, loadComments, loadNearbyOffers } from './action';
+import {
+  selectCity,
+  loadOffers,
+  requireAuthorization,
+  setError,
+  loadSelectedOffer,
+  loadComments,
+  loadNearbyOffers,
+  checkSendForm,
+  cleanForm
+} from './action';
 import { City, Offers, Offer, Reviews } from '../types/types';
 import { cities as mockCities } from '../mocks/mocks';
 import { AuthorizationStatus } from '../const';
-
 
 type InitialState = {
   currentCity: City;
   offers: Offers;
   isDataLoaded: boolean;
-  authorizationStatus:  AuthorizationStatus;
+  authorizationStatus: AuthorizationStatus;
   error: string;
-  selectedOffer: Offer | null;
+  selectedOffer: Offer | undefined;
   offerComments: Reviews;
-  nearbyOffers: Offers,
+  nearbyOffers: Offers;
+  isFormSend: boolean;
+  isFormCleared: boolean;
 };
 
 const initialState: InitialState = {
@@ -22,9 +33,11 @@ const initialState: InitialState = {
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   error: '',
-  selectedOffer: null,
+  selectedOffer: undefined,
   offerComments: [],
   nearbyOffers: [],
+  isFormSend: false,
+  isFormCleared: true,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -50,6 +63,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload;
+    })
+    .addCase(checkSendForm, (state, action) => {
+      state.isFormSend = action.payload;
+    })
+    .addCase(cleanForm,(state, action) => {
+      state.isFormCleared = action.payload;
     });
 });
 

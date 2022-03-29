@@ -1,5 +1,5 @@
 import { Review } from '../../types/types';
-import {MAX_STAR_VALUE} from '../../const';
+import { MAX_STAR_VALUE } from '../../const';
 
 type ReviewCardProps = {
   review: Review;
@@ -7,7 +7,21 @@ type ReviewCardProps = {
 
 function ReviewScreen(props: ReviewCardProps): JSX.Element {
   const { review } = props;
-  const rating = (Math.round(review.rating*100/MAX_STAR_VALUE*100)/100).toString();
+
+  const rating = (
+    Math.round(((review.rating * 100) / MAX_STAR_VALUE) * 100) / 100
+  ).toString();
+
+  const dateFormatterOutside = new Intl.DateTimeFormat('en-Us', {
+    year: 'numeric',
+    month: 'long',
+  });
+
+  const dateFormatterInside = new Intl.DateTimeFormat('fr-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
   return (
     <li className="reviews__item">
@@ -31,8 +45,8 @@ function ReviewScreen(props: ReviewCardProps): JSX.Element {
           </div>
         </div>
         <p className="reviews__text">{review.comment}</p>
-        <time className="reviews__time" dateTime="2019-04-24">
-          {review.date.slice(0, 10)}
+        <time className="reviews__time" dateTime={dateFormatterInside.format(Date.parse(review.date))}>
+          {dateFormatterOutside.format(Date.parse(review.date))}
         </time>
       </div>
     </li>

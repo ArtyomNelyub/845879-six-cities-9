@@ -11,19 +11,23 @@ import { store } from '../../store';
 import {
   fetchLoadComments,
   fetchSelectedOfferAction,
-  fetchLoadNearbyOffers
+  fetchLoadNearbyOffers,
+  checkAuthAction
 } from '../../store/api-actions';
 import { loadNearbyOffers, loadSelectedOffer } from '../../store/action';
-import NotFound from '../not-found/not-found';
 import { MAX_STAR_VALUE, AuthorizationStatus } from '../../const';
 import { useParams } from 'react-router-dom';
-import { Offer } from '../../types/types';
 import { useEffect } from 'react';
 
-store.dispatch(loadNearbyOffers([]));
-store.dispatch(loadSelectedOffer(null));
-
 function PropertyScreen(): JSX.Element {
+  const { id } = useParams();
+
+  useEffect(() => {
+    store.dispatch(checkAuthAction());
+    store.dispatch(loadNearbyOffers([]));
+    store.dispatch(loadSelectedOffer(undefined));
+  }, [id]);
+
   const {
     currentCity,
     offers,
@@ -32,33 +36,26 @@ function PropertyScreen(): JSX.Element {
     authorizationStatus,
     offerComments,
     nearbyOffers,
+    isFormCleared,
   } = useAppSelector((state) => state);
 
-  const { id } = useParams();
-  const stringId = id as string;
-
   useEffect(() => {
-    if (!isDataLoaded) {
-      store.dispatch(fetchSelectedOfferAction(stringId));
+    if (id) {
+      if (isDataLoaded) {
+        store.dispatch(
+          loadSelectedOffer(
+            offers.find((offer) => offer.id.toString() === id),
+          ),
+        );
+      } else {
+        store.dispatch(fetchSelectedOfferAction(id));
+      }
+      store.dispatch(fetchLoadComments(id));
+      store.dispatch(fetchLoadNearbyOffers(id));
     }
-    store.dispatch(fetchLoadComments(stringId));
-    store.dispatch(fetchLoadNearbyOffers(stringId));
-  }, [stringId]);
+  }, [id]);
 
-  if (isDataLoaded) {
-    const checkCurrentOffer: Offer | undefined = offers.find(
-      (offer) => offer.id.toString() === stringId,
-    );
-    if (checkCurrentOffer !== undefined) {
-      store.dispatch(loadSelectedOffer(checkCurrentOffer));
-    }
-  }
-
-  if (!offers.map((offer) => offer.id.toString()).includes(stringId)) {
-    return <NotFound />;
-  }
-
-  if (selectedOffer === null) {
+  if (!selectedOffer) {
     return <LoadingScreen />;
   }
 
@@ -164,7 +161,7 @@ function PropertyScreen(): JSX.Element {
                 <section className="property__reviews reviews">
                   <ReviewListScreen reviews={offerComments} />
                   {authorizationStatus === AuthorizationStatus.Auth ? (
-                    <FormPropertyScreen />
+                    <FormPropertyScreen key={isFormCleared.toString()}/>
                   ) : null}
                 </section>
               </div>

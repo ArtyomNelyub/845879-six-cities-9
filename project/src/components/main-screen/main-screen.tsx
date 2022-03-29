@@ -7,12 +7,29 @@ import Map from '../map/map';
 import CityList from './city-list';
 import { useAppSelector } from '../../hooks/';
 import { Offers } from '../../types/types';
-import { useState } from 'react';
-import { SortMethods } from '../../const';
+import { useEffect, useState } from 'react';
+import { AuthorizationStatus, SortMethods } from '../../const';
+import { store } from '../../store';
+import { fetchOffersAction, checkAuthAction } from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 
 function MainScreen(): JSX.Element {
-  const [sortBy, setSortBy] = useState<string>('Popular');
+  useEffect(()=> {
+    store.dispatch(fetchOffersAction());
+    store.dispatch(checkAuthAction());
+  }, []);
+
+  const {isDataLoaded, authorizationStatus, offers, currentCity } = useAppSelector((state)=> state);
+  const [sortBy, setSortBy] = useState<string>(SortMethods.POPULAR);
+  const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
+
+  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   const handleSortOptions = (SortOption: string): void => {
     setSortBy(SortOption);
   };
@@ -34,12 +51,10 @@ function MainScreen(): JSX.Element {
     }
   };
 
-  const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
   const handleCardHover = (id: number | undefined): void => {
     setActiveCard(id);
   };
 
-  const { offers, currentCity } = useAppSelector((state) => state);
   const filteredOffers: Offers = offers.filter(
     (offer) => offer.city.name === currentCity.name,
   );

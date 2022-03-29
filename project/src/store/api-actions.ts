@@ -9,6 +9,8 @@ import {
   CommentData
 } from '../types/types';
 import {
+  checkSendForm,
+  cleanForm,
   loadComments,
   loadNearbyOffers,
   loadOffers,
@@ -25,6 +27,7 @@ import {
 } from '../const';
 import { dropToken, saveToken } from '../services/token';
 import { errorHandle } from '../services/errorHandle';
+import axios from 'axios';
 
 export const clearErrorAction = createAsyncThunk('city/clearError', () => {
   setTimeout(() => store.dispatch(setError('')), TIMEOUT_SHOW_ERROR);
@@ -50,6 +53,9 @@ export const fetchSelectedOfferAction = createAsyncThunk(
       store.dispatch(loadSelectedOffer(data));
     } catch (error) {
       errorHandle(error);
+      if (axios.isAxiosError(error) && (error.message.includes('404'))) {
+        store.dispatch(redirectToRoute(AppRoute.NotFound));
+      }
     }
   },
 );
@@ -108,13 +114,17 @@ export const sendComment = createAsyncThunk(
   'user/sendComment',
   async ({ review, rating, id }: SendCommentArgs) => {
     try {
+      store.dispatch(checkSendForm(true));
       const { data } = await api.post<Reviews>(`${APIRouts.Comments}/${id}`, {
         comment: review,
         rating,
       });
       store.dispatch(loadComments(data));
+      store.dispatch(checkSendForm(false));
+      store.dispatch(cleanForm(false));
     } catch (error) {
       errorHandle(error);
+      store.dispatch(checkSendForm(false));
     }
   },
 );

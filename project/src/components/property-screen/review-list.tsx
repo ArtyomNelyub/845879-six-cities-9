@@ -1,3 +1,4 @@
+//import { useEffect } from 'react';
 import { Reviews } from '../../types/types';
 import ReviewScreen from './review-screen';
 
@@ -7,6 +8,14 @@ type ReviewListProps = {
 
 function ReviewListScreen(props: ReviewListProps): JSX.Element {
   const { reviews } = props;
+  const MAX_COMMENTS_NUMB = 10;
+  let sortedReviews: Reviews = [...reviews];
+
+  if (sortedReviews.length > MAX_COMMENTS_NUMB) {
+    sortedReviews = sortedReviews.reverse().slice(0, MAX_COMMENTS_NUMB);
+  } else {
+    sortedReviews = sortedReviews.reverse();
+  }
 
   return (
     <>
@@ -15,7 +24,7 @@ function ReviewListScreen(props: ReviewListProps): JSX.Element {
         <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list">
-        {reviews.map((review) => (
+        {sortedReviews.map((review) => (
           <ReviewScreen review={review} key={review.id} />
         ))}
       </ul>
