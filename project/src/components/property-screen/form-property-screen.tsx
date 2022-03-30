@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { store } from '../../store';
 import { sendComment } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks';
-import { cleanForm } from '../../store/action';
+import { clearForm } from '../../store/action';
 
 const STAR_TITLES: string[] = [
   'perfect',
@@ -22,7 +22,7 @@ function FormPropertyScreen(): JSX.Element {
   const isFormCleared = useAppSelector((state)=>state.isFormCleared);
   useEffect(()=> {
     if (!isFormCleared) {
-      store.dispatch(cleanForm(true));
+      store.dispatch(clearForm(true));
     }
   });
   const isFormSend = useAppSelector((state)=>state.isFormSend);
@@ -32,7 +32,6 @@ function FormPropertyScreen(): JSX.Element {
   });
 
   const { id } = useParams();
-  const stringId = id as string;
   let isReviewLengthCorrect = false;
   let isRatingChecked = false;
 
@@ -63,7 +62,9 @@ function FormPropertyScreen(): JSX.Element {
       method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        store.dispatch(sendComment({ id: stringId, ...formData }));
+        if (id) {
+          store.dispatch(sendComment({ id: id, ...formData }));
+        }
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">

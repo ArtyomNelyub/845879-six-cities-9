@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { City, Offers, Offer, Reviews } from '../types/types';
 import { AppRoute, AuthorizationStatus } from '../const';
 
-export const selectCity = createAction<{selectedCity: City}>('city/selectCity');
+export const selectCity = createAction<City>('city/selectCity');
 
 export const loadOffers = createAction<Offers>('city/loadOffers');
 
@@ -20,4 +20,4 @@ export const loadNearbyOffers = createAction<Offers>('city/nearbyOffers');
 
 export const checkSendForm = createAction<boolean>('city/checkSendForm');
 
-export const cleanForm = createAction<boolean>('city/cleanForm');
+export const clearForm = createAction<boolean>('city/cleanForm');

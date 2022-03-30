@@ -29,11 +29,11 @@ function PropertyScreen(): JSX.Element {
   }, [id]);
 
   const {
-    currentCity,
     offers,
     isDataLoaded,
     selectedOffer,
     authorizationStatus,
+    currentCity,
     offerComments,
     nearbyOffers,
     isFormCleared,
@@ -170,6 +170,7 @@ function PropertyScreen(): JSX.Element {
               currentCity={currentCity}
               activeCard={selectedOffer.id}
               offers={[...nearbyOffers, selectedOffer]}
+              key={`${id} - ${currentCity.name}`}
             />
           </section>
           <div className="container">

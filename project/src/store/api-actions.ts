@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, store } from './index';
+import { USER_EMAIL } from '../const';
 import {
   AuthData,
   Offers,
@@ -10,13 +11,14 @@ import {
 } from '../types/types';
 import {
   checkSendForm,
-  cleanForm,
+  clearForm,
   loadComments,
   loadNearbyOffers,
   loadOffers,
   loadSelectedOffer,
   redirectToRoute,
   requireAuthorization,
+  selectCity,
   setError
 } from './action';
 import {
@@ -51,6 +53,7 @@ export const fetchSelectedOfferAction = createAsyncThunk(
     try {
       const { data } = await api.get<Offer>(`${APIRouts.Hotels}/${id}`);
       store.dispatch(loadSelectedOffer(data));
+      store.dispatch(selectCity(data.city));
     } catch (error) {
       errorHandle(error);
       if (axios.isAxiosError(error) && (error.message.includes('404'))) {
@@ -70,16 +73,18 @@ export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
   }
 });
 
+
 export const loginAction = createAsyncThunk(
   'user/login',
   async ({ login: email, password }: AuthData) => {
     try {
       const {
-        data: { token },
+        data: { token, email: userEmail },
       } = await api.post<UserData>(APIRouts.Login, { email, password });
       saveToken(token);
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
       store.dispatch(redirectToRoute(AppRoute.Main));
+      localStorage.setItem(USER_EMAIL, userEmail);
     } catch (error) {
       errorHandle(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
@@ -121,7 +126,7 @@ export const sendComment = createAsyncThunk(
       });
       store.dispatch(loadComments(data));
       store.dispatch(checkSendForm(false));
-      store.dispatch(cleanForm(false));
+      store.dispatch(clearForm(false));
     } catch (error) {
       errorHandle(error);
       store.dispatch(checkSendForm(false));

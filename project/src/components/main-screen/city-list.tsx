@@ -14,12 +14,12 @@ function CityList(): JSX.Element {
           className="locations__item"
           key={`${city.name}`}
           onClick={() => {
-            dispatch(selectCity({ selectedCity: city }));
+            dispatch(selectCity(city));
           }}
         >
           <a
             className={
-              currentCity === city
+              currentCity.name === city.name
                 ? 'locations__item-link tabs__item tabs__item--active'
                 : 'locations__item-link tabs__item'
             }

@@ -8,7 +8,7 @@ import {
   loadComments,
   loadNearbyOffers,
   checkSendForm,
-  cleanForm
+  clearForm
 } from './action';
 import { City, Offers, Offer, Reviews } from '../types/types';
 import { cities as mockCities } from '../mocks/mocks';
@@ -43,7 +43,7 @@ const initialState: InitialState = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(selectCity, (state, action) => {
-      state.currentCity = action.payload.selectedCity;
+      state.currentCity = action.payload;
     })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
@@ -67,7 +67,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(checkSendForm, (state, action) => {
       state.isFormSend = action.payload;
     })
-    .addCase(cleanForm,(state, action) => {
+    .addCase(clearForm,(state, action) => {
       state.isFormCleared = action.payload;
     });
 });

@@ -18,6 +18,8 @@ function MainScreen(): JSX.Element {
   useEffect(()=> {
     store.dispatch(fetchOffersAction());
     store.dispatch(checkAuthAction());
+    // eslint-disable-next-line no-console
+    console.log(localStorage.getItem('six-cities-token'));
   }, []);
 
   const {isDataLoaded, authorizationStatus, offers, currentCity } = useAppSelector((state)=> state);
@@ -69,7 +71,7 @@ function MainScreen(): JSX.Element {
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
             <section className="locations container">
-              <CityList />
+              <CityList key={currentCity.name}/>
             </section>
           </div>
           {filteredOffers.length === 0 ? (

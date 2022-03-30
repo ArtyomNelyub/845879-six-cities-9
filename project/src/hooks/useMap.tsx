@@ -1,12 +1,14 @@
 import { useEffect, useState, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
 import { City } from '../types/types';
+import { useParams } from 'react-router-dom';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
   currentCity: City,
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
+  const {id} = useParams();
 
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
@@ -30,7 +32,7 @@ function useMap(
 
       setMap(instance);
     }
-  }, [mapRef, map, currentCity]);
+  }, [mapRef, map, currentCity, id]);
 
   return map;
 }

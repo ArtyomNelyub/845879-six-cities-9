@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, USER_EMAIL } from '../../const';
 import { useAppDispatch } from '../../hooks/index';
 import { logoutAction } from '../../store/api-actions';
 
 function Authorized(): JSX.Element {
   const dispatch = useAppDispatch();
-
   return (
     <>
       <li className="header__nav-item user">
@@ -15,7 +14,7 @@ function Authorized(): JSX.Element {
         >
           <div className="header__avatar-wrapper user__avatar-wrapper"></div>
           <span className="header__user-name user__name">
-            Oliver.conner@gmail.com
+            {localStorage.getItem(USER_EMAIL)}
           </span>
         </Link>
       </li>

@@ -37,3 +37,5 @@ export enum HTTP_CODE {
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
+export const USER_EMAIL = 'USER_EMAIL';
+
