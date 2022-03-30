@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-function UnauthorizedList(): JSX.Element {
+function Unauthorized(): JSX.Element {
   return (
     <li className="header__nav-item user">
       <Link
@@ -15,4 +15,4 @@ function UnauthorizedList(): JSX.Element {
   );
 }
 
-export default UnauthorizedList;
+export default Unauthorized;

@@ -7,38 +7,42 @@ export type OfferLocation = {
 export type OffersLocation = OfferLocation[];
 
 export type Review = {
-  urlAuthorAvatar: string;
-  authorName: string;
-  authorRating: string;
-  reviewText: string;
-  reviewData: string;
-  reviewId: string;
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: {
+    avatarUrl: string;
+    id: number;
+    isPro: boolean;
+    name: string;
+  }
 }
 
 export type Reviews = Review[];
 
 export type Offer = {
-  bedrooms?: number;
+  bedrooms: number;
   city: City;
-  description?: string;
-  goods?: [string];
-  host?: {
+  description: string;
+  goods: [string];
+  host: {
     avatarUrl: string;
     id: number;
     isPro: boolean;
     name: string;
   };
-  id?: number;
-  images?: [string];
-  isFavorite?: boolean;
-  isPremium?: boolean;
+  id: number;
+  images: [string];
+  isFavorite: boolean;
+  isPremium: boolean;
   location: OfferLocation;
-  maxAdults?: number;
-  previewImage?: string;
+  maxAdults: number;
+  previewImage: string;
   price: number;
   rating: number;
-  title?: string;
-  type?: string;
+  title: string;
+  type: string;
 };
 
 export type Offers = Offer[];
@@ -67,3 +71,9 @@ export type UserData = {
 };
 
 export type ErrorType = unknown;
+
+
+export type CommentData = {
+  review: string;
+  rating: string;
+};

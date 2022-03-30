@@ -3,6 +3,7 @@ import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import { City, Offers } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
+import { useParams } from 'react-router-dom';
 
 type MapProps = {
   currentCity: City;
@@ -32,6 +33,7 @@ function Map(props: MapProps): JSX.Element {
   } = props;
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
+  const {id} = useParams();
 
   useEffect(() => {
     if (map !== null) {
@@ -47,7 +49,7 @@ function Map(props: MapProps): JSX.Element {
           .addTo(map);
       });
     }
-  }, [map, currentCity, activeCard, offers]);
+  }, [map, currentCity, activeCard, offers, id]);
 
   return (
     <section

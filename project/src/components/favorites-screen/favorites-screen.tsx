@@ -55,3 +55,4 @@ function FavoritesScreen(): JSX.Element {
   );
 }
 export default FavoritesScreen;
+

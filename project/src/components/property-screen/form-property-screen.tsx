@@ -1,24 +1,54 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import Star from './star';
+import { CommentData } from '../../types/types';
+import { useParams } from 'react-router-dom';
+import { store } from '../../store';
+import { sendComment } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks';
+import { clearForm } from '../../store/action';
 
-type FormData = {
-  rating: string;
-  review: string;
-};
-
-const starTitles: string[] = [
+const STAR_TITLES: string[] = [
   'perfect',
   'good',
   'not bad',
   'badly',
   'terribly',
 ];
+const MIN_REVIEW_LENGTH = 50;
+const MAX_REVIEW_LENGTH = 300;
+
 
 function FormPropertyScreen(): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({
-    rating: '',
-    review: '',
+  const isFormCleared = useAppSelector((state)=>state.isFormCleared);
+  useEffect(()=> {
+    if (!isFormCleared) {
+      store.dispatch(clearForm(true));
+    }
   });
+  const isFormSend = useAppSelector((state)=>state.isFormSend);
+  const [formData, setFormData] = useState<CommentData>({
+    review: '',
+    rating: '',
+  });
+
+  const { id } = useParams();
+  let isReviewLengthCorrect = false;
+  let isRatingChecked = false;
+
+  if (
+    formData.review.length >= MIN_REVIEW_LENGTH &&
+    formData.review.length <= MAX_REVIEW_LENGTH
+  ) {
+    isReviewLengthCorrect = true;
+  } else {
+    isReviewLengthCorrect = false;
+  }
+
+  if (formData.rating === '') {
+    isRatingChecked = false;
+  } else {
+    isRatingChecked = true;
+  }
 
   function FormData(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = evt.target;
@@ -32,17 +62,20 @@ function FormPropertyScreen(): JSX.Element {
       method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
+        if (id) {
+          store.dispatch(sendComment({ id: id, ...formData }));
+        }
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        {starTitles.map((starTitle, index) => (
+        {STAR_TITLES.map((title, index) => (
           <Star
-            key={starTitle}
+            key={title}
             index={index.toString()}
-            title={starTitle}
+            title={title}
             handler={FormData}
           />
         ))}
@@ -53,6 +86,7 @@ function FormPropertyScreen(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        disabled = {isFormSend}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -63,7 +97,7 @@ function FormPropertyScreen(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={!(isReviewLengthCorrect && isRatingChecked)}
         >
           Submit
         </button>

@@ -1,5 +1,5 @@
-import AuthorizedList from './authorized-list';
-import UnauthorizedList from './unauthorized-list';
+import Authorized from './authorized';
+import Unauthorized from './unauthorized';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
@@ -25,9 +25,9 @@ function Header(): JSX.Element {
           <nav className="header__nav">
             <ul className="header__nav-list">
               {authorizationStatus === AuthorizationStatus.Auth ? (
-                <AuthorizedList />
+                <Authorized />
               ) : (
-                <UnauthorizedList />
+                <Unauthorized />
               )}
             </ul>
           </nav>

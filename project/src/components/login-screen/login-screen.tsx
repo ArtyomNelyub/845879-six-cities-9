@@ -1,12 +1,14 @@
 import SVGContainer from '../svg-container/svg-container';
-import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const';
-import { FormEvent, useRef } from 'react';
-import { useAppDispatch } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
+import { Link, Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { FormEvent, useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { checkAuthAction, loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/types';
+import { store } from '../../store';
 
 function LoginScreen(): JSX.Element {
+  const {authorizationStatus} = useAppSelector((state) => state);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,6 +28,16 @@ function LoginScreen(): JSX.Element {
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
+
+  useEffect(()=> {
+    store.dispatch(checkAuthAction());
+  }, []);
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return (
+      <Navigate to ={AppRoute.Main} />
+    );
+  }
 
   return (
     <>
@@ -93,7 +105,7 @@ function LoginScreen(): JSX.Element {
             <section className="locations locations--login locations--current">
               <div className="locations__item">
                 <Link className="locations__item-link" to={AppRoute.Main}>
-                  <span>Amsterdam</span>
+                  <span>Paris</span>
                 </Link>
               </div>
             </section>
