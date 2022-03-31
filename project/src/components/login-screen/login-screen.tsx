@@ -8,7 +8,7 @@ import { AuthData } from '../../types/types';
 import { store } from '../../store';
 
 function LoginScreen(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const {authorizationStatus} = useAppSelector((state) => state.USER);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 

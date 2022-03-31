@@ -12,29 +12,28 @@ import { AuthorizationStatus, SortMethods } from '../../const';
 import { store } from '../../store';
 import { fetchOffersAction, checkAuthAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { useCallback } from 'react';
 
 
 function MainScreen(): JSX.Element {
   useEffect(()=> {
     store.dispatch(fetchOffersAction());
     store.dispatch(checkAuthAction());
-    // eslint-disable-next-line no-console
-    console.log(localStorage.getItem('six-cities-token'));
   }, []);
 
-  const {isDataLoaded, authorizationStatus, offers, currentCity } = useAppSelector((state)=> state);
+  const {currentCity } = useAppSelector((state)=> state.DATA);
+  const {isDataLoaded, offers} = useAppSelector((state)=> state.CITY);
+  const {authorizationStatus} = useAppSelector((state)=> state.USER);
   const [sortBy, setSortBy] = useState<string>(SortMethods.POPULAR);
   const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
 
-  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
+  const handleCardHover = useCallback((id: number | undefined): void => {
+    setActiveCard(id);
+  },[]);
 
-  const handleSortOptions = (SortOption: string): void => {
+  const handleSortOptions = useCallback((SortOption: string): void => {
     setSortBy(SortOption);
-  };
+  },[]);
 
   const changeOrderOffers = function (
     sortMethod: string,
@@ -53,14 +52,16 @@ function MainScreen(): JSX.Element {
     }
   };
 
-  const handleCardHover = (id: number | undefined): void => {
-    setActiveCard(id);
-  };
-
   const filteredOffers: Offers = offers.filter(
     (offer) => offer.city.name === currentCity.name,
   );
   const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
+
+  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <>

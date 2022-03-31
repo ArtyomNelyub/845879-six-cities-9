@@ -14,7 +14,7 @@ import {
   fetchLoadNearbyOffers,
   checkAuthAction
 } from '../../store/api-actions';
-import { loadNearbyOffers, loadSelectedOffer } from '../../store/action';
+import { loadNearbyOffers, loadSelectedOffer } from '../../store/city-process/city-process';
 import { MAX_STAR_VALUE, AuthorizationStatus } from '../../const';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -22,24 +22,28 @@ import { useEffect } from 'react';
 function PropertyScreen(): JSX.Element {
   const { id } = useParams();
 
-  useEffect(() => {
-    store.dispatch(checkAuthAction());
-    store.dispatch(loadNearbyOffers([]));
-    store.dispatch(loadSelectedOffer(undefined));
-  }, [id]);
-
   const {
     offers,
     isDataLoaded,
     selectedOffer,
-    authorizationStatus,
-    currentCity,
     offerComments,
     nearbyOffers,
+  } = useAppSelector((state) => state.CITY);
+
+  const {
+    currentCity,
     isFormCleared,
-  } = useAppSelector((state) => state);
+  } = useAppSelector((state) => state.DATA);
+
+  const {
+    authorizationStatus,
+  } = useAppSelector((state) => state.USER);
 
   useEffect(() => {
+    store.dispatch(checkAuthAction());
+    store.dispatch(loadNearbyOffers([]));
+    store.dispatch(loadSelectedOffer(undefined));
+
     if (id) {
       if (isDataLoaded) {
         store.dispatch(
@@ -53,7 +57,7 @@ function PropertyScreen(): JSX.Element {
       store.dispatch(fetchLoadComments(id));
       store.dispatch(fetchLoadNearbyOffers(id));
     }
-  }, [id]);
+  }, [id, isDataLoaded, offers]);
 
   if (!selectedOffer) {
     return <LoadingScreen />;
