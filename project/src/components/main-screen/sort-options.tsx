@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SortMethods } from '../../const';
+import { memo } from 'react';
 
 const sortMethods: string[] = Object.values(SortMethods);
 
@@ -53,4 +54,4 @@ function SortOptions(props: SortOptionsProps ) {
   );
 }
 
-export default SortOptions;
+export default memo(SortOptions);

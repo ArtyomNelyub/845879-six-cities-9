@@ -12,12 +12,12 @@ function ReviewScreen(props: ReviewCardProps): JSX.Element {
     Math.round(((review.rating * 100) / MAX_STAR_VALUE) * 100) / 100
   ).toString();
 
-  const dateFormatterOutside = new Intl.DateTimeFormat('en-Us', {
+  const dateFormatterDateTimeAttribute = new Intl.DateTimeFormat('en-Us', {
     year: 'numeric',
     month: 'long',
   });
 
-  const dateFormatterInside = new Intl.DateTimeFormat('fr-CA', {
+  const dateFormatterReview = new Intl.DateTimeFormat('fr-CA', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -45,8 +45,13 @@ function ReviewScreen(props: ReviewCardProps): JSX.Element {
           </div>
         </div>
         <p className="reviews__text">{review.comment}</p>
-        <time className="reviews__time" dateTime={dateFormatterInside.format(Date.parse(review.date))}>
-          {dateFormatterOutside.format(Date.parse(review.date))}
+        <time
+          className="reviews__time"
+          dateTime={dateFormatterDateTimeAttribute.format(
+            Date.parse(review.date),
+          )}
+        >
+          {dateFormatterReview.format(Date.parse(review.date))}
         </time>
       </div>
     </li>

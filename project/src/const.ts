@@ -35,6 +35,12 @@ export enum HTTP_CODE {
   NOT_FOUND = 404,
 }
 
+export enum NameSpace {
+  data = 'DATA',
+  city = 'CITY',
+  user = 'USER',
+}
+
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const USER_EMAIL = 'USER_EMAIL';

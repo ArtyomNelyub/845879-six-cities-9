@@ -1,11 +1,11 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect, useCallback } from 'react';
 import Star from './star';
 import { CommentData } from '../../types/types';
 import { useParams } from 'react-router-dom';
 import { store } from '../../store';
 import { sendComment } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks';
-import { clearForm } from '../../store/action';
+import { clearForm } from '../../store/data-process/data-process';
 
 const STAR_TITLES: string[] = [
   'perfect',
@@ -17,43 +17,29 @@ const STAR_TITLES: string[] = [
 const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 
-
 function FormPropertyScreen(): JSX.Element {
-  const isFormCleared = useAppSelector((state)=>state.isFormCleared);
-  useEffect(()=> {
+  const isFormCleared = useAppSelector((state) => state.DATA.isFormCleared);
+  useEffect(() => {
     if (!isFormCleared) {
       store.dispatch(clearForm(true));
     }
   });
-  const isFormSend = useAppSelector((state)=>state.isFormSend);
+  const isFormSend = useAppSelector((state) => state.DATA.isFormSend);
   const [formData, setFormData] = useState<CommentData>({
     review: '',
     rating: '',
   });
 
   const { id } = useParams();
-  let isReviewLengthCorrect = false;
-  let isRatingChecked = false;
-
-  if (
+  const isReviewLengthCorrect =
     formData.review.length >= MIN_REVIEW_LENGTH &&
-    formData.review.length <= MAX_REVIEW_LENGTH
-  ) {
-    isReviewLengthCorrect = true;
-  } else {
-    isReviewLengthCorrect = false;
-  }
+    formData.review.length <= MAX_REVIEW_LENGTH;
+  const isRatingChecked = formData.rating !== '';
 
-  if (formData.rating === '') {
-    isRatingChecked = false;
-  } else {
-    isRatingChecked = true;
-  }
-
-  function FormData(evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  const FormData = useCallback((evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
-  }
+  },[formData]);
 
   return (
     <form
@@ -86,7 +72,7 @@ function FormPropertyScreen(): JSX.Element {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        disabled = {isFormSend}
+        disabled={isFormSend}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

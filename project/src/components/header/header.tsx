@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
+import {memo} from 'react';
 
 function Header(): JSX.Element {
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const { authorizationStatus } = useAppSelector((state) => state.USER);
   return (
     <header className="header">
       <div className="container">
@@ -37,4 +38,4 @@ function Header(): JSX.Element {
   );
 }
 
-export default Header;
+export default memo(Header);

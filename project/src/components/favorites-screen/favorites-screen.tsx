@@ -5,7 +5,7 @@ import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
 
 function FavoritesScreen(): JSX.Element {
-  const {offers} = useAppSelector((state)=>state);
+  const {offers} = useAppSelector((state)=>state.CITY);
   return (
     <>
       <SVGComponent />

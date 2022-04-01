@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/';
-import { selectCity } from '../../store/action';
+import { selectCity } from '../../store/data-process/data-process';
 import {cities as CITIES} from '../../mocks/mocks';
+import {memo} from 'react';
 
 function CityList(): JSX.Element {
-  const { currentCity } = useAppSelector((state) => state);
+  const { currentCity } = useAppSelector((state) => state.DATA);
 
   const dispatch = useAppDispatch();
 
@@ -33,4 +34,4 @@ function CityList(): JSX.Element {
   );
 }
 
-export default CityList;
+export default memo(CityList);

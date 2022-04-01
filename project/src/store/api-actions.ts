@@ -7,20 +7,22 @@ import {
   UserData,
   Offer,
   Reviews,
-  CommentData
+  SendCommentArgs
 } from '../types/types';
+import { redirectToRoute } from './action';
 import {
-  checkSendForm,
-  clearForm,
   loadComments,
   loadNearbyOffers,
   loadOffers,
-  loadSelectedOffer,
-  redirectToRoute,
-  requireAuthorization,
+  loadSelectedOffer
+} from './city-process/city-process';
+import {
   selectCity,
-  setError
-} from './action';
+  setError,
+  checkSendForm,
+  clearForm
+} from './data-process/data-process';
+import { requireAuthorization } from './user-process/user-process';
 import {
   APIRouts,
   AppRoute,
@@ -56,7 +58,7 @@ export const fetchSelectedOfferAction = createAsyncThunk(
       store.dispatch(selectCity(data.city));
     } catch (error) {
       errorHandle(error);
-      if (axios.isAxiosError(error) && (error.message.includes('404'))) {
+      if (axios.isAxiosError(error) && error.message.includes('404')) {
         store.dispatch(redirectToRoute(AppRoute.NotFound));
       }
     }
@@ -72,7 +74,6 @@ export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
     store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
 });
-
 
 export const loginAction = createAsyncThunk(
   'user/login',
@@ -103,7 +104,7 @@ export const logoutAction = createAsyncThunk('user/logout', async () => {
 });
 
 export const fetchLoadComments = createAsyncThunk(
-  'city/fetchLoadComments',
+  'data/fetchLoadComments',
   async (id: string) => {
     try {
       const { data } = await api.get<Reviews>(`${APIRouts.Comments}/${id}`);
@@ -114,9 +115,8 @@ export const fetchLoadComments = createAsyncThunk(
   },
 );
 
-type SendCommentArgs = CommentData & { id: string };
 export const sendComment = createAsyncThunk(
-  'user/sendComment',
+  'data/sendComment',
   async ({ review, rating, id }: SendCommentArgs) => {
     try {
       store.dispatch(checkSendForm(true));
@@ -135,7 +135,7 @@ export const sendComment = createAsyncThunk(
 );
 
 export const fetchLoadNearbyOffers = createAsyncThunk(
-  'city/fetchLoadNearbyOffers',
+  'data/fetchLoadNearbyOffers',
   async (id: string) => {
     try {
       const { data } = await api.get<Offers>(`${APIRouts.Hotels}/${id}/nearby`);

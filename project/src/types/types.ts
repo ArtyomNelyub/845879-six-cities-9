@@ -77,3 +77,5 @@ export type CommentData = {
   review: string;
   rating: string;
 };
+
+export type SendCommentArgs = CommentData & { id: string };
