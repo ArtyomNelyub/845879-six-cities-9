@@ -72,10 +72,14 @@ export type UserData = {
 
 export type ErrorType = unknown;
 
-
 export type CommentData = {
   review: string;
   rating: string;
 };
 
 export type SendCommentArgs = CommentData & { id: string };
+
+export type CheckFavoriteStatus = {
+  id: string,
+  favoriteStatus: number,
+};

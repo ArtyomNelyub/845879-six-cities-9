@@ -1,54 +1,51 @@
 import { useAppSelector } from '../../hooks';
-import CardScreen from './card-screen';
 import Footer from '../footer/footer';
 import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
+import CityCardList from './city-card-list';
+import Empty from './empty';
+import { useEffect, useState } from 'react';
+import { store } from '../../store';
+import { fetchLoadFavorites } from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function FavoritesScreen(): JSX.Element {
-  const {offers} = useAppSelector((state)=>state.CITY);
+  const cityState = useAppSelector((state) => state.CITY);
+
+  const [isCardRemoved, setIsCardRemoved] = useState(false);
+
+  const handleIsCardRemoved = function (isRemoved: boolean): void {
+    setIsCardRemoved(isRemoved);
+  };
+
+  useEffect(() => {
+    setIsCardRemoved(false);
+    store.dispatch(fetchLoadFavorites());
+  }, [isCardRemoved]);
+
+  if (!cityState.isFavoritesLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
     <>
       <SVGComponent />
-      <div className="page">
+      <div
+        className={
+          cityState.favoriteOffers.length === 0
+            ? 'page page--favorites-empty'
+            : 'page'
+        }
+      >
         <Header />
-        <main className="page__main page__main--favorites">
-          <div className="page__favorites-container container">
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                <li className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#todo">
-                        <span>Amsterdam</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="favorites__places">
-                    {offers.slice(0, 3).map((offer) => (
-                      <CardScreen key={offer.id} offer={offer} />
-                    ))}
-                  </div>
-                </li>
-
-                <li className="favorites__locations-items">
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#todo">
-                        <span>Cologne</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="favorites__places">
-                    {offers.slice(0, 2).map((offer) => (
-                      <CardScreen key={offer.id} offer={offer} />
-                    ))}
-                  </div>
-                </li>
-              </ul>
-            </section>
-          </div>
-        </main>
+        {cityState.favoriteOffers.length === 0 ? (
+          <Empty />
+        ) : (
+          <CityCardList
+            favoritesOffers={cityState.favoriteOffers}
+            handleIsCardRemoved={handleIsCardRemoved}
+          />
+        )}
         <Footer />
       </div>
     </>

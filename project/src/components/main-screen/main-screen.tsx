@@ -17,13 +17,13 @@ import { useCallback } from 'react';
 
 function MainScreen(): JSX.Element {
   useEffect(()=> {
-    store.dispatch(fetchOffersAction());
     store.dispatch(checkAuthAction());
+    store.dispatch(fetchOffersAction());
   }, []);
 
-  const {currentCity } = useAppSelector((state)=> state.DATA);
-  const {isDataLoaded, offers} = useAppSelector((state)=> state.CITY);
-  const {authorizationStatus} = useAppSelector((state)=> state.USER);
+  const currentCity = useAppSelector((state)=> state.DATA.currentCity);
+  const cityState = useAppSelector((state)=> state.CITY);
+  const authorizationStatus = useAppSelector((state)=> state.USER.authorizationStatus);
   const [sortBy, setSortBy] = useState<string>(SortMethods.POPULAR);
   const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
 
@@ -52,12 +52,12 @@ function MainScreen(): JSX.Element {
     }
   };
 
-  const filteredOffers: Offers = offers.filter(
+  const filteredOffers: Offers = cityState.offers.filter(
     (offer) => offer.city.name === currentCity.name,
   );
   const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
 
-  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !isDataLoaded) {
+  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !cityState.isDataLoaded) {
     return (
       <LoadingScreen />
     );
