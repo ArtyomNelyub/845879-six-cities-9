@@ -7,14 +7,17 @@ import {
   UserData,
   Offer,
   Reviews,
-  SendCommentArgs
+  SendCommentArgs,
+  CheckFavoriteStatus
 } from '../types/types';
 import { redirectToRoute } from './action';
 import {
   loadComments,
+  changeOfferFavoriteStatus,
   loadNearbyOffers,
   loadOffers,
-  loadSelectedOffer
+  loadSelectedOffer,
+  fillFavoriteOffers
 } from './city-process/city-process';
 import {
   selectCity,
@@ -41,10 +44,11 @@ export const fetchOffersAction = createAsyncThunk(
   'data/fetchOffers',
   async () => {
     try {
-      const { data } = await api.get<Offers>(APIRouts.Hotels);
+      const { data } = await api.get<Offers>(`${APIRouts.Hotels}`);
       store.dispatch(loadOffers(data));
     } catch (error) {
       errorHandle(error);
+      store.dispatch(loadOffers([]));
     }
   },
 );
@@ -70,7 +74,9 @@ export const checkAuthAction = createAsyncThunk('user/checkAuth', async () => {
     await api.get(APIRouts.Login);
     store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
   } catch (error) {
-    errorHandle(error);
+    if (!(axios.isAxiosError(error) && error.message.includes('401'))) {
+      errorHandle(error);
+    }
     store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   }
 });
@@ -142,6 +148,35 @@ export const fetchLoadNearbyOffers = createAsyncThunk(
       store.dispatch(loadNearbyOffers(data));
     } catch (error) {
       errorHandle(error);
+    }
+  },
+);
+
+export const fetchLoadFavorites = createAsyncThunk(
+  'data/fetchLoadFavorites',
+  async () => {
+    try {
+      const {data} = await api.get<Offers>(`${APIRouts.Favorite}`);
+      store.dispatch(fillFavoriteOffers(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const changeFavoriteStatus = createAsyncThunk(
+  'data/changeFavoriteStatus',
+  async ({id, favoriteStatus}: CheckFavoriteStatus) => {
+    try {
+      const {data} = await api.post<Offer>(`${APIRouts.Favorite}/${id}/${favoriteStatus}`);
+      store.dispatch(changeOfferFavoriteStatus(data));
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.message.includes('401')) {
+        store.dispatch(redirectToRoute(AppRoute.SignIn));
+      } else {
+        errorHandle(error);
+      }
     }
   },
 );

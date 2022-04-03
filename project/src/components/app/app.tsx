@@ -27,7 +27,7 @@ function App(): JSX.Element {
             </PrivateRoute>
           }
         />
-        <Route path={`${AppRoute.Room}/:id`} element={<PropertyScreen /*key={id}*//>} />
+        <Route path={`${AppRoute.Room}/:id`} element={<PropertyScreen />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </HistoryRouter>

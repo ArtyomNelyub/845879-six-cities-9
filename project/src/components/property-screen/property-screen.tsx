@@ -12,12 +12,13 @@ import {
   fetchLoadComments,
   fetchSelectedOfferAction,
   fetchLoadNearbyOffers,
-  checkAuthAction
+  checkAuthAction,
+  changeFavoriteStatus
 } from '../../store/api-actions';
 import { loadNearbyOffers, loadSelectedOffer } from '../../store/city-process/city-process';
 import { MAX_STAR_VALUE, AuthorizationStatus } from '../../const';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function PropertyScreen(): JSX.Element {
   const { id } = useParams();
@@ -31,13 +32,16 @@ function PropertyScreen(): JSX.Element {
   } = useAppSelector((state) => state.CITY);
 
   const {
-    currentCity,
     isFormCleared,
   } = useAppSelector((state) => state.DATA);
 
   const {
     authorizationStatus,
   } = useAppSelector((state) => state.USER);
+
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean>(
+    (!!selectedOffer && selectedOffer.isFavorite),
+  );
 
   useEffect(() => {
     store.dispatch(checkAuthAction());
@@ -88,7 +92,20 @@ function PropertyScreen(): JSX.Element {
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{selectedOffer.title}</h1>
                   <button
-                    className="property__bookmark-button button"
+                    onClick = {() => {
+                      setFavoriteStatus(!favoriteStatus);
+                      store.dispatch(
+                        changeFavoriteStatus({
+                          id: selectedOffer.id.toString(),
+                          favoriteStatus: favoriteStatus ? 0 : 1,
+                        }),
+                      );
+                    }}
+                    className={
+                      selectedOffer.isFavorite
+                        ? 'property__bookmark-button property__bookmark-button--active button'
+                        : 'property__bookmark-button button'
+                    }
                     type="button"
                   >
                     <svg
@@ -171,10 +188,10 @@ function PropertyScreen(): JSX.Element {
               </div>
             </div>
             <Map
-              currentCity={currentCity}
+              currentCity={selectedOffer.city}
               activeCard={selectedOffer.id}
               offers={[...nearbyOffers, selectedOffer]}
-              key={`${id} - ${currentCity.name}`}
+              key={`${id} - ${selectedOffer.city.name}`}
             />
           </section>
           <div className="container">
