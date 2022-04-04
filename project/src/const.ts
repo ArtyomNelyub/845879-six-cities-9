@@ -1,3 +1,5 @@
+import { City } from './types/types';
+
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',
@@ -29,7 +31,7 @@ export enum SortMethods {
 
 export const MAX_STAR_RATING = 5;
 
-export enum HTTP_CODE {
+export enum HttpCode {
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
@@ -42,9 +44,60 @@ export enum NameSpace {
 }
 
 export const FAVORITE_STATUS_ADDED = 1;
+
 export const FAVORITE_STATUS_NOT_ADDED = 0;
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const USER_EMAIL = 'USER_EMAIL';
 
+export const CITIES: City[] = [
+  {
+    location: {
+      latitude: 48.864716,
+      longitude: 2.349014,
+      zoom: 12,
+    },
+    name: 'Paris',
+  },
+  {
+    location: {
+      latitude: 50.935173,
+      longitude: 6.953101,
+      zoom: 12,
+    },
+    name: 'Cologne',
+  },
+  {
+    location: {
+      latitude: 50.8505,
+      longitude: 4.3488,
+      zoom: 12,
+    },
+    name: 'Brussels',
+  },
+  {
+    location: {
+      latitude: 52.377956,
+      longitude: 4.89707,
+      zoom: 12,
+    },
+    name: 'Amsterdam',
+  },
+  {
+    location: {
+      latitude: 53.551086,
+      longitude: 9.993682,
+      zoom: 12,
+    },
+    name: 'Hamburg',
+  },
+  {
+    location: {
+      latitude: 51.233334,
+      longitude: 6.783333,
+      zoom: 12,
+    },
+    name: 'Dusseldorf',
+  },
+];

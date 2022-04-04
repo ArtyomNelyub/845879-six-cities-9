@@ -3,7 +3,7 @@ import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { selectCity } from '../../store/app-process/app-process';
 import { Offers } from '../../types/types';
-import { cities } from '../../mocks/mocks';
+import { CITIES } from '../../const';
 import Card from './card';
 
 type CityCardListProps = {
@@ -27,7 +27,7 @@ function CityCardList(props : CityCardListProps): JSX.Element {
                 className="favorites__locations-items"
                 key={cityName}
                 onClick={() => {
-                  dispatch(selectCity(cities.find((city)=>city.name === cityName)));
+                  dispatch(selectCity(CITIES.find((city)=>city.name === cityName)));
                 }}
               >
                 <div className="favorites__locations locations locations--current">

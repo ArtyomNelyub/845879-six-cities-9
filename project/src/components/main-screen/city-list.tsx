@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/';
 import { selectCity } from '../../store/app-process/app-process';
-import {cities as CITIES} from '../../mocks/mocks';
+import { CITIES } from '../../const';
 import { Link } from 'react-router-dom';
-import {memo} from 'react';
+import { memo } from 'react';
 
 function CityList(): JSX.Element {
   const appState = useAppSelector((state) => state.APP);

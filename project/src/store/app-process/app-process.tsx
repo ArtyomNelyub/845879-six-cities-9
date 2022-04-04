@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { NameSpace, CITIES } from '../../const';
 import { City } from '../../types/types';
-import {cities} from '../../mocks/mocks';
 
 type AppProcess = {
   currentCity: City;
@@ -11,7 +10,7 @@ type AppProcess = {
 }
 
 const initialState: AppProcess = {
-  currentCity: cities[0],
+  currentCity: CITIES[0],
   error: '',
   isPropertyFormSend: false,
   isPropertyFormCleared: true,
