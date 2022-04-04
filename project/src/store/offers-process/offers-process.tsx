@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { Offer, Offers, Reviews } from '../../types/types';
 
-type CityProcess = {
+type OffersProcess = {
   offers: Offers;
-  isDataLoaded: boolean;
+  isOffersLoaded: boolean;
   favoriteOffers: Offers;
   isFavoritesLoaded: boolean;
   selectedOffer: Offer | undefined;
@@ -12,23 +12,23 @@ type CityProcess = {
   nearbyOffers: Offers;
 };
 
-const initialState: CityProcess = {
+const initialState: OffersProcess = {
   offers: [],
   favoriteOffers: [],
-  isDataLoaded: false,
+  isOffersLoaded: false,
   isFavoritesLoaded: false,
   selectedOffer: undefined,
   offerComments: [],
   nearbyOffers: [],
 };
 
-export const cityProcess = createSlice({
-  name: NameSpace.city,
+export const offersProcess = createSlice({
+  name: NameSpace.offers,
   initialState,
   reducers: {
     loadOffers: (state, action) => {
       state.offers = action.payload;
-      state.isDataLoaded = true;
+      state.isOffersLoaded = true;
     },
     changeOfferFavoriteStatus: (state, action) => {
       state.offers.map((offer) => {
@@ -61,4 +61,4 @@ export const {
   loadOffers,
   loadSelectedOffer,
   fillFavoriteOffers,
-} = cityProcess.actions;
+} = offersProcess.actions;

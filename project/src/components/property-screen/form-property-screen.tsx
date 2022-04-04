@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { store } from '../../store';
 import { sendComment } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks';
-import { clearForm } from '../../store/data-process/data-process';
+import { clearForm } from '../../store/app-process/app-process';
 
 const STAR_TITLES: string[] = [
   'perfect',
@@ -18,13 +18,13 @@ const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 
 function FormPropertyScreen(): JSX.Element {
-  const isFormCleared = useAppSelector((state) => state.DATA.isFormCleared);
+  const isFormCleared = useAppSelector((state) => state.APP.isPropertyFormCleared);
   useEffect(() => {
     if (!isFormCleared) {
       store.dispatch(clearForm(true));
     }
   });
-  const isFormSend = useAppSelector((state) => state.DATA.isFormSend);
+  const isFormSend = useAppSelector((state) => state.APP.isPropertyFormSend);
   const [formData, setFormData] = useState<CommentData>({
     review: '',
     rating: '',

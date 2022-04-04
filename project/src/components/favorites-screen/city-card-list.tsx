@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { selectCity } from '../../store/app-process/app-process';
 import { Offers } from '../../types/types';
+import { cities } from '../../mocks/mocks';
 import Card from './card';
 
 type CityCardListProps = {
@@ -11,6 +14,7 @@ type CityCardListProps = {
 function CityCardList(props : CityCardListProps): JSX.Element {
   const {favoritesOffers, handleIsCardRemoved}  = props;
   const uniqueCities = [...new Set(favoritesOffers.map((offer) => offer.city.name))];
+  const dispatch = useAppDispatch();
 
   return (
     <main className="page__main page__main--favorites">
@@ -19,7 +23,13 @@ function CityCardList(props : CityCardListProps): JSX.Element {
           <h1 className="favorites__title">Saved listing</h1>
           <ul className="favorites__list">
             {uniqueCities.map((cityName) => (
-              <li className="favorites__locations-items" key={cityName}>
+              <li
+                className="favorites__locations-items"
+                key={cityName}
+                onClick={() => {
+                  dispatch(selectCity(cities.find((city)=>city.name === cityName)));
+                }}
+              >
                 <div className="favorites__locations locations locations--current">
                   <div
                     className="locations__item"

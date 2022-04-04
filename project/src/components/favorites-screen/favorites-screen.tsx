@@ -10,7 +10,7 @@ import { fetchLoadFavorites } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function FavoritesScreen(): JSX.Element {
-  const cityState = useAppSelector((state) => state.CITY);
+  const offersState = useAppSelector((state) => state.OFFERS);
 
   const [isCardRemoved, setIsCardRemoved] = useState(false);
 
@@ -23,7 +23,7 @@ function FavoritesScreen(): JSX.Element {
     store.dispatch(fetchLoadFavorites());
   }, [isCardRemoved]);
 
-  if (!cityState.isFavoritesLoaded) {
+  if (!offersState.isFavoritesLoaded) {
     return <LoadingScreen />;
   }
 
@@ -32,17 +32,17 @@ function FavoritesScreen(): JSX.Element {
       <SVGComponent />
       <div
         className={
-          cityState.favoriteOffers.length === 0
+          offersState.favoriteOffers.length === 0
             ? 'page page--favorites-empty'
             : 'page'
         }
       >
         <Header />
-        {cityState.favoriteOffers.length === 0 ? (
+        {offersState.favoriteOffers.length === 0 ? (
           <Empty />
         ) : (
           <CityCardList
-            favoritesOffers={cityState.favoriteOffers}
+            favoritesOffers={offersState.favoriteOffers}
             handleIsCardRemoved={handleIsCardRemoved}
           />
         )}

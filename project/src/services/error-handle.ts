@@ -1,7 +1,7 @@
 import request from 'axios';
 import { HTTP_CODE } from '../const';
 import { store } from '../store';
-import { setError } from '../store/data-process/data-process';
+import { setError } from '../store/app-process/app-process';
 import { ErrorType } from '../types/types';
 import { clearErrorAction } from '../store/api-actions';
 

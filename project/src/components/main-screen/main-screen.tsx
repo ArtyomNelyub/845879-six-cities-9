@@ -21,8 +21,8 @@ function MainScreen(): JSX.Element {
     store.dispatch(fetchOffersAction());
   }, []);
 
-  const currentCity = useAppSelector((state)=> state.DATA.currentCity);
-  const cityState = useAppSelector((state)=> state.CITY);
+  const currentCity = useAppSelector((state)=> state.APP.currentCity);
+  const cityState = useAppSelector((state)=> state.OFFERS);
   const authorizationStatus = useAppSelector((state)=> state.USER.authorizationStatus);
   const [sortBy, setSortBy] = useState<string>(SortMethods.POPULAR);
   const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
@@ -57,7 +57,7 @@ function MainScreen(): JSX.Element {
   );
   const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
 
-  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !cityState.isDataLoaded) {
+  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !cityState.isOffersLoaded) {
     return (
       <LoadingScreen />
     );

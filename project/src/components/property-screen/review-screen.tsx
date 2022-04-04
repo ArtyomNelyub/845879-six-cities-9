@@ -1,5 +1,5 @@
 import { Review } from '../../types/types';
-import { MAX_STAR_VALUE } from '../../const';
+import { ratingHandle } from '../../services/rating-handle';
 
 type ReviewCardProps = {
   review: Review;
@@ -8,9 +8,7 @@ type ReviewCardProps = {
 function ReviewScreen(props: ReviewCardProps): JSX.Element {
   const { review } = props;
 
-  const rating = (
-    Math.round(((review.rating * 100) / MAX_STAR_VALUE) * 100) / 100
-  ).toString();
+  const rating = ratingHandle(review.rating);
 
   const dateFormatterDateTimeAttribute = new Intl.DateTimeFormat('en-Us', {
     year: 'numeric',

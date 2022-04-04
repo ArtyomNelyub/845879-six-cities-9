@@ -18,13 +18,13 @@ import {
   loadOffers,
   loadSelectedOffer,
   fillFavoriteOffers
-} from './city-process/city-process';
+} from './offers-process/offers-process';
 import {
   selectCity,
   setError,
   checkSendForm,
   clearForm
-} from './data-process/data-process';
+} from './app-process/app-process';
 import { requireAuthorization } from './user-process/user-process';
 import {
   APIRouts,
@@ -33,7 +33,7 @@ import {
   TIMEOUT_SHOW_ERROR
 } from '../const';
 import { dropToken, saveToken } from '../services/token';
-import { errorHandle } from '../services/errorHandle';
+import { errorHandle } from '../services/error-handle';
 import axios from 'axios';
 
 export const clearErrorAction = createAsyncThunk('city/clearError', () => {

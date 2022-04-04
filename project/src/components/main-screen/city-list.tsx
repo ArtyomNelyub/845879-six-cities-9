@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/';
-import { selectCity } from '../../store/data-process/data-process';
+import { selectCity } from '../../store/app-process/app-process';
 import {cities as CITIES} from '../../mocks/mocks';
 import { Link } from 'react-router-dom';
 import {memo} from 'react';
 
 function CityList(): JSX.Element {
-  const dataState = useAppSelector((state) => state.DATA);
+  const appState = useAppSelector((state) => state.APP);
 
   const dispatch = useAppDispatch();
 
@@ -21,11 +21,11 @@ function CityList(): JSX.Element {
         >
           <Link
             className={
-              dataState.currentCity.name === city.name
+              appState.currentCity.name === city.name
                 ? 'locations__item-link tabs__item tabs__item--active'
                 : 'locations__item-link tabs__item'
             }
-            to={`#${dataState.currentCity.name}`}
+            to={`#${appState.currentCity.name}`}
           >
             <span>{city.name}</span>
           </Link>

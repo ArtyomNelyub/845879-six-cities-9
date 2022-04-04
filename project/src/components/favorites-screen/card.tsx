@@ -1,9 +1,14 @@
 import { Offer } from '../../types/types';
 import { Link } from 'react-router-dom';
-import { AppRoute, MAX_STAR_VALUE } from '../../const';
+import {
+  AppRoute,
+  FAVORITE_STATUS_ADDED,
+  FAVORITE_STATUS_NOT_ADDED
+} from '../../const';
 import { useState } from 'react';
 import { store } from '../../store';
 import { changeFavoriteStatus } from '../../store/api-actions';
+import { ratingHandle } from '../../services/rating-handle';
 
 type CardProps = {
   offer: Offer;
@@ -11,10 +16,10 @@ type CardProps = {
 };
 function Card(props: CardProps): JSX.Element {
   const { offer, handleIsCardRemoved } = props;
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean>(offer.isFavorite);
-  const rating = (
-    Math.round(((offer.rating * 100) / MAX_STAR_VALUE) * 100) / 100
-  ).toString();
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean>(
+    offer.isFavorite,
+  );
+  const rating = ratingHandle(offer.rating);
   return (
     <article className="favorites__card place-card">
       {offer.isPremium ? (
@@ -47,7 +52,9 @@ function Card(props: CardProps): JSX.Element {
               store.dispatch(
                 changeFavoriteStatus({
                   id: offer.id.toString(),
-                  favoriteStatus: favoriteStatus ? 0 : 1,
+                  favoriteStatus: favoriteStatus
+                    ? FAVORITE_STATUS_NOT_ADDED
+                    : FAVORITE_STATUS_ADDED,
                 }),
               );
               handleIsCardRemoved(true);

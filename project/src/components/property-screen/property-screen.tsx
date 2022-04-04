@@ -15,32 +15,31 @@ import {
   checkAuthAction,
   changeFavoriteStatus
 } from '../../store/api-actions';
-import { loadNearbyOffers, loadSelectedOffer } from '../../store/city-process/city-process';
-import { MAX_STAR_VALUE, AuthorizationStatus } from '../../const';
+import {
+  loadNearbyOffers,
+  loadSelectedOffer
+} from '../../store/offers-process/offers-process';
+import {
+  AuthorizationStatus,
+  FAVORITE_STATUS_ADDED,
+  FAVORITE_STATUS_NOT_ADDED
+} from '../../const';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { ratingHandle } from '../../services/rating-handle';
 
 function PropertyScreen(): JSX.Element {
   const { id } = useParams();
 
-  const {
-    offers,
-    isDataLoaded,
-    selectedOffer,
-    offerComments,
-    nearbyOffers,
-  } = useAppSelector((state) => state.CITY);
+  const { offers, isOffersLoaded, selectedOffer, offerComments, nearbyOffers } =
+    useAppSelector((state) => state.OFFERS);
 
-  const {
-    isFormCleared,
-  } = useAppSelector((state) => state.DATA);
+  const { isPropertyFormCleared } = useAppSelector((state) => state.APP);
 
-  const {
-    authorizationStatus,
-  } = useAppSelector((state) => state.USER);
+  const { authorizationStatus } = useAppSelector((state) => state.USER);
 
   const [favoriteStatus, setFavoriteStatus] = useState<boolean>(
-    (!!selectedOffer && selectedOffer.isFavorite),
+    !!selectedOffer && selectedOffer.isFavorite,
   );
 
   useEffect(() => {
@@ -49,11 +48,9 @@ function PropertyScreen(): JSX.Element {
     store.dispatch(loadSelectedOffer(undefined));
 
     if (id) {
-      if (isDataLoaded) {
+      if (isOffersLoaded) {
         store.dispatch(
-          loadSelectedOffer(
-            offers.find((offer) => offer.id.toString() === id),
-          ),
+          loadSelectedOffer(offers.find((offer) => offer.id.toString() === id)),
         );
       } else {
         store.dispatch(fetchSelectedOfferAction(id));
@@ -61,15 +58,15 @@ function PropertyScreen(): JSX.Element {
       store.dispatch(fetchLoadComments(id));
       store.dispatch(fetchLoadNearbyOffers(id));
     }
-  }, [id, isDataLoaded, offers]);
+  }, [id, isOffersLoaded, offers]);
 
   if (!selectedOffer) {
     return <LoadingScreen />;
   }
 
-  const rating = (
-    Math.round(((selectedOffer.rating * 100) / MAX_STAR_VALUE) * 100) / 100
-  ).toString();
+  const rating = ratingHandle(selectedOffer.rating);
+
+  const classNameChanger = isOffersLoaded ? selectedOffer.isFavorite : favoriteStatus;
 
   return (
     <>
@@ -92,17 +89,19 @@ function PropertyScreen(): JSX.Element {
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{selectedOffer.title}</h1>
                   <button
-                    onClick = {() => {
+                    onClick={() => {
                       setFavoriteStatus(!favoriteStatus);
                       store.dispatch(
                         changeFavoriteStatus({
                           id: selectedOffer.id.toString(),
-                          favoriteStatus: favoriteStatus ? 0 : 1,
+                          favoriteStatus: favoriteStatus
+                            ? FAVORITE_STATUS_NOT_ADDED
+                            : FAVORITE_STATUS_ADDED,
                         }),
                       );
                     }}
                     className={
-                      selectedOffer.isFavorite
+                      classNameChanger
                         ? 'property__bookmark-button property__bookmark-button--active button'
                         : 'property__bookmark-button button'
                     }
@@ -182,7 +181,7 @@ function PropertyScreen(): JSX.Element {
                 <section className="property__reviews reviews">
                   <ReviewListScreen reviews={offerComments} />
                   {authorizationStatus === AuthorizationStatus.Auth ? (
-                    <FormPropertyScreen key={isFormCleared.toString()}/>
+                    <FormPropertyScreen key={isPropertyFormCleared.toString()} />
                   ) : null}
                 </section>
               </div>

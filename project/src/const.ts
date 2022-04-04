@@ -27,7 +27,7 @@ export enum SortMethods {
   TOP_RATED_FIRST = 'Top rated first'
 }
 
-export const MAX_STAR_VALUE = 5;
+export const MAX_STAR_RATING = 5;
 
 export enum HTTP_CODE {
   BAD_REQUEST = 400,
@@ -36,10 +36,13 @@ export enum HTTP_CODE {
 }
 
 export enum NameSpace {
-  data = 'DATA',
-  city = 'CITY',
+  app = 'APP',
+  offers = 'OFFERS',
   user = 'USER',
 }
+
+export const FAVORITE_STATUS_ADDED = 1;
+export const FAVORITE_STATUS_NOT_ADDED = 0;
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 

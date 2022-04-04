@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useAppSelector } from '../../hooks';
-import { MAX_STAR_VALUE } from '../../const';
+import { MAX_STAR_RATING } from '../../const';
 
 type StarProps = {
   title: string;
@@ -9,9 +9,9 @@ type StarProps = {
 };
 
 function Star(props: StarProps): JSX.Element {
-  const isFormSend = useAppSelector((state) => state.DATA.isFormSend);
+  const isPropertyFormSend = useAppSelector((state) => state.APP.isPropertyFormSend);
   const { title, index, handler } = props;
-  const value: string = (MAX_STAR_VALUE - Number(index)).toString();
+  const value: string = (MAX_STAR_RATING - Number(index)).toString();
   return (
     <>
       <input
@@ -21,7 +21,7 @@ function Star(props: StarProps): JSX.Element {
         value={value}
         id={`${value}-star`}
         type="radio"
-        disabled={isFormSend}
+        disabled={isPropertyFormSend}
       />
       <label
         htmlFor={`${value}-star`}

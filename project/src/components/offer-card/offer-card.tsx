@@ -1,10 +1,14 @@
 import { Offer } from '../../types/types';
-import { Link/*, Navigate*/ } from 'react-router-dom';
-import { AppRoute, /*AuthorizationStatus,*/ MAX_STAR_VALUE } from '../../const';
+import { Link } from 'react-router-dom';
+import {
+  AppRoute,
+  FAVORITE_STATUS_ADDED,
+  FAVORITE_STATUS_NOT_ADDED
+} from '../../const';
 import { useState } from 'react';
 import { store } from '../../store';
 import { changeFavoriteStatus } from '../../store/api-actions';
-//import { useAppSelector } from '../../hooks';
+import { ratingHandle } from '../../services/rating-handle';
 
 type OfferCardProps = {
   offer: Offer;
@@ -17,11 +21,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
   const [favoriteStatus, setFavoriteStatus] = useState<boolean>(
     offer.isFavorite,
   );
-  //const userState = useAppSelector((state)=>state.USER);
 
-  const rating = (
-    Math.round(((offer.rating * 100) / MAX_STAR_VALUE) * 100) / 100
-  ).toString();
+  const rating = ratingHandle(offer.rating);
 
   return (
     <article
@@ -75,7 +76,9 @@ function OfferCard(props: OfferCardProps): JSX.Element {
               store.dispatch(
                 changeFavoriteStatus({
                   id: offer.id.toString(),
-                  favoriteStatus: favoriteStatus ? 0 : 1,
+                  favoriteStatus: favoriteStatus
+                    ? FAVORITE_STATUS_NOT_ADDED
+                    : FAVORITE_STATUS_ADDED,
                 }),
               );
               setFavoriteStatus(!favoriteStatus);
