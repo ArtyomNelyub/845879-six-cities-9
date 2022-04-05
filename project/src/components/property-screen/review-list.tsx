@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Reviews } from '../../types/types';
 import ReviewScreen from './review-screen';
 
@@ -29,4 +30,4 @@ function ReviewListScreen(props: ReviewListProps): JSX.Element {
   );
 }
 
-export default ReviewListScreen;
+export default memo(ReviewListScreen);

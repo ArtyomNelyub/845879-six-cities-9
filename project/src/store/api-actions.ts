@@ -17,7 +17,8 @@ import {
   loadNearbyOffers,
   loadOffers,
   loadSelectedOffer,
-  fillFavoriteOffers
+  fillFavoriteOffers,
+  changeSelectedOfferFavoriteStatus
 } from './offers-process/offers-process';
 import {
   selectCity,
@@ -170,6 +171,7 @@ export const changeFavoriteStatus = createAsyncThunk(
     try {
       const {data} = await api.post<Offer>(`${APIRouts.Favorite}/${id}/${favoriteStatus}`);
       store.dispatch(changeOfferFavoriteStatus(data));
+      store.dispatch(changeSelectedOfferFavoriteStatus(data.isFavorite));
       return data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.message.includes('401')) {

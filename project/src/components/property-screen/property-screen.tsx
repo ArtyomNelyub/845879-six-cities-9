@@ -25,22 +25,19 @@ import {
   FAVORITE_STATUS_NOT_ADDED
 } from '../../const';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ratingHandle } from '../../services/rating-handle';
 
 function PropertyScreen(): JSX.Element {
   const { id } = useParams();
+  const offers = useAppSelector((state) => state.OFFERS.offers);
+  const isOffersLoaded =  useAppSelector((state) => state.OFFERS.isOffersLoaded);
+  const isPropertyFormCleared = useAppSelector((state) => state.APP.isPropertyFormCleared);
+  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
 
-  const { offers, isOffersLoaded, selectedOffer, offerComments, nearbyOffers } =
-    useAppSelector((state) => state.OFFERS);
-
-  const { isPropertyFormCleared } = useAppSelector((state) => state.APP);
-
-  const { authorizationStatus } = useAppSelector((state) => state.USER);
-
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean>(
-    !!selectedOffer && selectedOffer.isFavorite,
-  );
+  const offerComments =  useAppSelector((state) => state.OFFERS.offerComments);
+  const nearbyOffers =  useAppSelector((state) => state.OFFERS.nearbyOffers);
+  const selectedOffer =  useAppSelector((state) => state.OFFERS.selectedOffer);
 
   useEffect(() => {
     store.dispatch(checkAuthAction());
@@ -60,13 +57,11 @@ function PropertyScreen(): JSX.Element {
     }
   }, [id, isOffersLoaded, offers]);
 
-  if (!selectedOffer) {
+  if (selectedOffer === undefined || selectedOffer.id.toString() !== id) {
     return <LoadingScreen />;
   }
 
   const rating = ratingHandle(selectedOffer.rating);
-
-  const classNameChanger = isOffersLoaded ? selectedOffer.isFavorite : favoriteStatus;
 
   return (
     <>
@@ -90,18 +85,17 @@ function PropertyScreen(): JSX.Element {
                   <h1 className="property__name">{selectedOffer.title}</h1>
                   <button
                     onClick={() => {
-                      setFavoriteStatus(!favoriteStatus);
                       store.dispatch(
                         changeFavoriteStatus({
                           id: selectedOffer.id.toString(),
-                          favoriteStatus: favoriteStatus
+                          favoriteStatus: selectedOffer.isFavorite
                             ? FAVORITE_STATUS_NOT_ADDED
                             : FAVORITE_STATUS_ADDED,
                         }),
                       );
                     }}
                     className={
-                      classNameChanger
+                      selectedOffer.isFavorite
                         ? 'property__bookmark-button property__bookmark-button--active button'
                         : 'property__bookmark-button button'
                     }

@@ -1,5 +1,6 @@
 import { Review } from '../../types/types';
 import { ratingHandle } from '../../services/rating-handle';
+import { memo } from 'react';
 
 type ReviewCardProps = {
   review: Review;
@@ -56,4 +57,4 @@ function ReviewScreen(props: ReviewCardProps): JSX.Element {
   );
 }
 
-export default ReviewScreen;
+export default memo(ReviewScreen);

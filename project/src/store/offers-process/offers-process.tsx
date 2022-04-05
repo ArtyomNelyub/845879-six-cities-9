@@ -38,6 +38,11 @@ export const offersProcess = createSlice({
         return offer;
       });
     },
+    changeSelectedOfferFavoriteStatus: (state, action) => {
+      if (state.selectedOffer) {
+        state.selectedOffer.isFavorite = action.payload;
+      }
+    },
     fillFavoriteOffers: (state, action) => {
       state.favoriteOffers = action.payload;
       state.isFavoritesLoaded = true;
@@ -61,4 +66,5 @@ export const {
   loadOffers,
   loadSelectedOffer,
   fillFavoriteOffers,
+  changeSelectedOfferFavoriteStatus,
 } = offersProcess.actions;
