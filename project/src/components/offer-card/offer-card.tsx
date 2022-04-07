@@ -5,10 +5,11 @@ import {
   FAVORITE_STATUS_ADDED,
   FAVORITE_STATUS_NOT_ADDED
 } from '../../const';
-import { useState } from 'react';
-import { store } from '../../store';
+import { useEffect, useState } from 'react';
 import { changeFavoriteStatus } from '../../store/api-actions';
 import { ratingHandle } from '../../services/rating-handle';
+import { apartmentTypeHandle } from '../../services/apartment-type-handle';
+import { useAppDispatch } from '../../hooks';
 
 type OfferCardProps = {
   offer: Offer;
@@ -17,10 +18,13 @@ type OfferCardProps = {
 };
 
 function OfferCard(props: OfferCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const { offer, handleCardHover, isMainScreen = false } = props;
   const [favoriteStatus, setFavoriteStatus] = useState<boolean>(
     offer.isFavorite,
   );
+
+  useEffect(()=>setFavoriteStatus(offer.isFavorite),[offer.isFavorite]);
 
   const rating = ratingHandle(offer.rating);
 
@@ -73,7 +77,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
           <button
             onClick={() => {
-              store.dispatch(
+              dispatch(
                 changeFavoriteStatus({
                   id: offer.id.toString(),
                   favoriteStatus: favoriteStatus
@@ -105,7 +109,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={`${AppRoute.Room}/${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{apartmentTypeHandle(offer.type)}</p>
       </div>
     </article>
   );

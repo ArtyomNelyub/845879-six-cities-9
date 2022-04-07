@@ -1,7 +1,9 @@
 import {useAppSelector} from '../../hooks/index';
+import { getError } from '../../store/app-process/selectors';
+
 
 function ErrorMessage(): JSX.Element | null {
-  const {error} = useAppSelector((state) => state.APP);
+  const error = useAppSelector(getError);
 
   if (error) {
     return (
@@ -14,6 +16,7 @@ function ErrorMessage(): JSX.Element | null {
           backgroundColor:'#d96666',
           color: 'white',
           borderRadius: '5px',
+          zIndex: '100',
         }}
       >
         {error}

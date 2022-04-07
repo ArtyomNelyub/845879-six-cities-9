@@ -1,16 +1,18 @@
-import { useAppSelector } from '../../hooks';
 import Footer from '../footer/footer';
 import SVGComponent from '../svg-container/svg-container';
 import Header from '../header/header';
 import CityCardList from './city-card-list';
 import Empty from './empty';
-import { useEffect, useState } from 'react';
-import { store } from '../../store';
-import { fetchLoadFavorites } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
+import { useEffect, useState } from 'react';
+import { fetchLoadFavorites } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getFavoriteOffers, getIsFavoritesLoaded } from '../../store/offers-process/selectors';
 
 function FavoritesScreen(): JSX.Element {
-  const offersState = useAppSelector((state) => state.OFFERS);
+  const dispatch = useAppDispatch();
+  const isFavoritesLoaded = useAppSelector(getIsFavoritesLoaded);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
   const [isCardRemoved, setIsCardRemoved] = useState(false);
 
@@ -20,10 +22,10 @@ function FavoritesScreen(): JSX.Element {
 
   useEffect(() => {
     setIsCardRemoved(false);
-    store.dispatch(fetchLoadFavorites());
-  }, [isCardRemoved]);
+    dispatch(fetchLoadFavorites());
+  }, [dispatch, isCardRemoved]);
 
-  if (!offersState.isFavoritesLoaded) {
+  if (isFavoritesLoaded) {
     return <LoadingScreen />;
   }
 
@@ -32,17 +34,17 @@ function FavoritesScreen(): JSX.Element {
       <SVGComponent />
       <div
         className={
-          offersState.favoriteOffers.length === 0
+          favoriteOffers.length === 0
             ? 'page page--favorites-empty'
             : 'page'
         }
       >
         <Header />
-        {offersState.favoriteOffers.length === 0 ? (
+        {favoriteOffers.length === 0 ? (
           <Empty />
         ) : (
           <CityCardList
-            favoritesOffers={offersState.favoriteOffers}
+            favoritesOffers={favoriteOffers}
             handleIsCardRemoved={handleIsCardRemoved}
           />
         )}

@@ -23,7 +23,7 @@ const initialState: OffersProcess = {
 };
 
 export const offersProcess = createSlice({
-  name: NameSpace.offers,
+  name: NameSpace.Offers,
   initialState,
   reducers: {
     loadOffers: (state, action) => {
@@ -38,6 +38,10 @@ export const offersProcess = createSlice({
         return offer;
       });
     },
+    cleanOffersFavoriteStatus: (state, action) => {
+      state.offers.forEach((offer) => offer.isFavorite = action.payload);
+      state.nearbyOffers.forEach((offer) => offer.isFavorite = action.payload);
+    },
     changeSelectedOfferFavoriteStatus: (state, action) => {
       if (state.selectedOffer) {
         state.selectedOffer.isFavorite = action.payload;
@@ -45,7 +49,7 @@ export const offersProcess = createSlice({
     },
     fillFavoriteOffers: (state, action) => {
       state.favoriteOffers = action.payload;
-      state.isFavoritesLoaded = true;
+      state.isFavoritesLoaded = false;
     },
     loadSelectedOffer: (state, action) => {
       state.selectedOffer = action.payload;
@@ -67,4 +71,5 @@ export const {
   loadSelectedOffer,
   fillFavoriteOffers,
   changeSelectedOfferFavoriteStatus,
+  cleanOffersFavoriteStatus,
 } = offersProcess.actions;

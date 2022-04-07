@@ -3,25 +3,38 @@ import { Link, Navigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { checkAuthAction, loginAction } from '../../store/api-actions';
+import { checkAuthAction, clearErrorAction, loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/types';
-import { store } from '../../store';
+import { CITIES } from '../../const';
+import { selectCity, setError } from '../../store/app-process/app-process';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function LoginScreen(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state.USER);
+  const randomCity = CITIES[Math.floor(Math.random() * CITIES.length)];
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
+  const passwordRegExp = /((?=.*\d)(?=.*[a-zA-Z])).{2,}/g;
+  const emailRegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,}/g;
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
+    if (
+      loginRef.current &&
+      passwordRef.current &&
+      passwordRegExp.test(passwordRef.current.value) &&
+      emailRegExp.test(loginRef.current.value)
+    ) {
       onSubmit({
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
+    } else {
+      dispatch(setError('Incorrect password or email'));
+      dispatch(clearErrorAction());
     }
   };
 
@@ -29,14 +42,12 @@ function LoginScreen(): JSX.Element {
     dispatch(loginAction(authData));
   };
 
-  useEffect(()=> {
-    store.dispatch(checkAuthAction());
-  }, []);
+  useEffect(() => {
+    dispatch(checkAuthAction());
+  }, [dispatch]);
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return (
-      <Navigate to ={AppRoute.Main} />
-    );
+    return <Navigate to={AppRoute.Main} />;
   }
 
   return (
@@ -103,9 +114,18 @@ function LoginScreen(): JSX.Element {
               </form>
             </section>
             <section className="locations locations--login locations--current">
-              <div className="locations__item">
+              <div
+                className="locations__item"
+                onClick={() => {
+                  dispatch(
+                    selectCity(
+                      CITIES.find((city) => city.name === randomCity.name),
+                    ),
+                  );
+                }}
+              >
                 <Link className="locations__item-link" to={AppRoute.Main}>
-                  <span>Paris</span>
+                  <span>{randomCity.name}</span>
                 </Link>
               </div>
             </section>

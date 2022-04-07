@@ -11,15 +11,15 @@ function ReviewScreen(props: ReviewCardProps): JSX.Element {
 
   const rating = ratingHandle(review.rating);
 
-  const dateFormatterDateTimeAttribute = new Intl.DateTimeFormat('en-Us', {
-    year: 'numeric',
-    month: 'long',
-  });
-
-  const dateFormatterReview = new Intl.DateTimeFormat('fr-CA', {
+  const dateFormatterDateTimeAttribute = new Intl.DateTimeFormat('fr-CA', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
+  });
+
+  const dateFormatterReview = new Intl.DateTimeFormat('en-Us', {
+    year: 'numeric',
+    month: 'long',
   });
 
   return (

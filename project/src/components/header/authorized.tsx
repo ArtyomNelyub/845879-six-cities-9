@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { AppRoute, USER_EMAIL } from '../../const';
 import { useAppDispatch } from '../../hooks/index';
+import { redirectToRoute } from '../../store/action';
 import { logoutAction } from '../../store/api-actions';
+import { changeSelectedOfferFavoriteStatus, cleanOffersFavoriteStatus } from '../../store/offers-process/offers-process';
 
 function Authorized(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -27,7 +29,16 @@ function Authorized(): JSX.Element {
             dispatch(logoutAction());
           }}
         >
-          <span className="header__signout">Sign out</span>
+          <span
+            className="header__signout"
+            onClick={() => {
+              dispatch(changeSelectedOfferFavoriteStatus(false));
+              dispatch(cleanOffersFavoriteStatus(false));
+              dispatch(redirectToRoute(AppRoute.Main));
+            }}
+          >
+            Sign out
+          </span>
         </Link>
       </li>
     </>

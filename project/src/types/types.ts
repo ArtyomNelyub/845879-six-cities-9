@@ -1,10 +1,8 @@
 export type OfferLocation = {
   latitude: number;
   longitude: number;
-  zoom?: number;
+  zoom: number;
 }
-
-export type OffersLocation = OfferLocation[];
 
 export type Review = {
   comment: string;

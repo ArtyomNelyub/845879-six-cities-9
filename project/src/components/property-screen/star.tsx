@@ -1,21 +1,22 @@
 import { ChangeEvent } from 'react';
 import { useAppSelector } from '../../hooks';
 import { MAX_STAR_RATING } from '../../const';
+import { getIsPropertyFormSend } from '../../store/app-process/selectors';
 
 type StarProps = {
   title: string;
   index: string;
-  handler: (evt: ChangeEvent<HTMLInputElement>) => void;
+  handleFormData: (evt: ChangeEvent<HTMLInputElement>) => void;
 };
 
 function Star(props: StarProps): JSX.Element {
-  const isPropertyFormSend = useAppSelector((state) => state.APP.isPropertyFormSend);
-  const { title, index, handler } = props;
+  const isPropertyFormSend = useAppSelector(getIsPropertyFormSend);
+  const { title, index, handleFormData } = props;
   const value: string = (MAX_STAR_RATING - Number(index)).toString();
   return (
     <>
       <input
-        onChange={handler}
+        onChange={handleFormData}
         className="form__rating-input visually-hidden"
         name="rating"
         value={value}

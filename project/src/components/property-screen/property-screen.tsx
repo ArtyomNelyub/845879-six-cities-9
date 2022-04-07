@@ -4,10 +4,9 @@ import Header from '../header/header';
 import ReviewListScreen from './review-list';
 import Map from '../map/map';
 import OfferCardList from '../offer-card/offer-card-list';
-import { useAppSelector } from '../../hooks/';
+import { useAppDispatch, useAppSelector } from '../../hooks/';
 import PreviewImages from './preview-images';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { store } from '../../store';
 import {
   fetchLoadComments,
   fetchSelectedOfferAction,
@@ -27,35 +26,40 @@ import {
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { ratingHandle } from '../../services/rating-handle';
+import { apartmentTypeHandle } from '../../services/apartment-type-handle';
+import { getIsOffersLoaded, getNearbyOffers, getOfferComments, getOffers, getSelectedOffer } from '../../store/offers-process/selectors';
+import { getIsPropertyFormCleared } from '../../store/app-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function PropertyScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
-  const offers = useAppSelector((state) => state.OFFERS.offers);
-  const isOffersLoaded =  useAppSelector((state) => state.OFFERS.isOffersLoaded);
-  const isPropertyFormCleared = useAppSelector((state) => state.APP.isPropertyFormCleared);
-  const authorizationStatus = useAppSelector((state) => state.USER.authorizationStatus);
+  const offers = useAppSelector(getOffers);
+  const isOffersLoaded =  useAppSelector(getIsOffersLoaded);
+  const isPropertyFormCleared = useAppSelector(getIsPropertyFormCleared);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const offerComments =  useAppSelector((state) => state.OFFERS.offerComments);
-  const nearbyOffers =  useAppSelector((state) => state.OFFERS.nearbyOffers);
-  const selectedOffer =  useAppSelector((state) => state.OFFERS.selectedOffer);
+  const offerComments =  useAppSelector(getOfferComments);
+  const nearbyOffers =  useAppSelector(getNearbyOffers);
+  const selectedOffer =  useAppSelector(getSelectedOffer);
 
   useEffect(() => {
-    store.dispatch(checkAuthAction());
-    store.dispatch(loadNearbyOffers([]));
-    store.dispatch(loadSelectedOffer(undefined));
+    dispatch(checkAuthAction());
+    dispatch(loadNearbyOffers([]));
+    dispatch(loadSelectedOffer(undefined));
 
     if (id) {
       if (isOffersLoaded) {
-        store.dispatch(
+        dispatch(
           loadSelectedOffer(offers.find((offer) => offer.id.toString() === id)),
         );
       } else {
-        store.dispatch(fetchSelectedOfferAction(id));
+        dispatch(fetchSelectedOfferAction(id));
       }
-      store.dispatch(fetchLoadComments(id));
-      store.dispatch(fetchLoadNearbyOffers(id));
+      dispatch(fetchLoadComments(id));
+      dispatch(fetchLoadNearbyOffers(id));
     }
-  }, [id, isOffersLoaded, offers]);
+  }, [dispatch, id, isOffersLoaded, offers]);
 
   if (selectedOffer === undefined || selectedOffer.id.toString() !== id) {
     return <LoadingScreen />;
@@ -85,7 +89,7 @@ function PropertyScreen(): JSX.Element {
                   <h1 className="property__name">{selectedOffer.title}</h1>
                   <button
                     onClick={() => {
-                      store.dispatch(
+                      dispatch(
                         changeFavoriteStatus({
                           id: selectedOffer.id.toString(),
                           favoriteStatus: selectedOffer.isFavorite
@@ -122,7 +126,7 @@ function PropertyScreen(): JSX.Element {
                 </div>
                 <ul className="property__features">
                   <li className="property__feature property__feature--entire">
-                    {selectedOffer.type}
+                    {apartmentTypeHandle(selectedOffer.type)}
                   </li>
                   <li className="property__feature property__feature--bedrooms">
                     {selectedOffer.bedrooms} Bedrooms

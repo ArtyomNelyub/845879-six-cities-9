@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import { City, Offers } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
 import { useParams } from 'react-router-dom';
@@ -14,14 +14,14 @@ type MapProps = {
 
 const defaultIcon = new Icon({
   iconUrl: 'img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [27, 39],
+  iconAnchor: [14, 15],
 });
 
 const activeIcon = new Icon({
   iconUrl: 'img/pin-active.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [27, 39],
+  iconAnchor: [14, 15],
 });
 
 function Map(props: MapProps): JSX.Element {

@@ -90,9 +90,9 @@ export const loginAction = createAsyncThunk(
         data: { token, email: userEmail },
       } = await api.post<UserData>(APIRouts.Login, { email, password });
       saveToken(token);
+      localStorage.setItem(USER_EMAIL, userEmail);
       store.dispatch(requireAuthorization(AuthorizationStatus.Auth));
       store.dispatch(redirectToRoute(AppRoute.Main));
-      localStorage.setItem(USER_EMAIL, userEmail);
     } catch (error) {
       errorHandle(error);
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));

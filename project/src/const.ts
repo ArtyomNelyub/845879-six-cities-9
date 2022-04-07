@@ -38,9 +38,9 @@ export enum HttpCode {
 }
 
 export enum NameSpace {
-  app = 'APP',
-  offers = 'OFFERS',
-  user = 'USER',
+  App = 'APP',
+  Offers = 'OFFERS',
+  User = 'USER',
 }
 
 export const FAVORITE_STATUS_ADDED = 1;

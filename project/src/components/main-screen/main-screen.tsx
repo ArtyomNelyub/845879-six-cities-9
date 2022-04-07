@@ -5,25 +5,29 @@ import SVGContainer from '../svg-container/svg-container';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityList from './city-list';
-import { useAppSelector } from '../../hooks/';
+import { useAppDispatch, useAppSelector } from '../../hooks/';
 import { Offers } from '../../types/types';
 import { useEffect, useState } from 'react';
 import { AuthorizationStatus, SortMethods } from '../../const';
-import { store } from '../../store';
 import { fetchOffersAction, checkAuthAction } from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { useCallback } from 'react';
+import { getCurrentCity } from '../../store/app-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getIsOffersLoaded, getOffers } from '../../store/offers-process/selectors';
 
 
 function MainScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
   useEffect(()=> {
-    store.dispatch(checkAuthAction());
-    store.dispatch(fetchOffersAction());
-  }, []);
+    dispatch(checkAuthAction());
+    dispatch(fetchOffersAction());
+  }, [dispatch]);
 
-  const currentCity = useAppSelector((state)=> state.APP.currentCity);
-  const cityState = useAppSelector((state)=> state.OFFERS);
-  const authorizationStatus = useAppSelector((state)=> state.USER.authorizationStatus);
+  const currentCity = useAppSelector(getCurrentCity);
+  const offers = useAppSelector(getOffers);
+  const isOffersLoaded = useAppSelector(getIsOffersLoaded);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const [sortBy, setSortBy] = useState<string>(SortMethods.POPULAR);
   const [activeCard, setActiveCard] = useState<number | undefined>(undefined);
 
@@ -52,12 +56,12 @@ function MainScreen(): JSX.Element {
     }
   };
 
-  const filteredOffers: Offers = cityState.offers.filter(
+  const filteredOffers: Offers = offers.filter(
     (offer) => offer.city.name === currentCity.name,
   );
   const sortedFilteredOffers = changeOrderOffers(sortBy, filteredOffers);
 
-  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !cityState.isOffersLoaded) {
+  if ((authorizationStatus === AuthorizationStatus.UNKNOWN) || !isOffersLoaded) {
     return (
       <LoadingScreen />
     );

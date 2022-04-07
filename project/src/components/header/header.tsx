@@ -5,9 +5,11 @@ import { AppRoute } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
 import {memo} from 'react';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Header(): JSX.Element {
-  const { authorizationStatus } = useAppSelector((state) => state.USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
   return (
     <header className="header">
       <div className="container">

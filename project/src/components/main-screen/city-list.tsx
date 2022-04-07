@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/';
 import { selectCity } from '../../store/app-process/app-process';
-import { CITIES } from '../../const';
+import { AppRoute, CITIES } from '../../const';
 import { Link } from 'react-router-dom';
-import { memo } from 'react';
+import { getCurrentCity } from '../../store/app-process/selectors';
 
 function CityList(): JSX.Element {
-  const appState = useAppSelector((state) => state.APP);
+  const currentCity = useAppSelector(getCurrentCity);
 
   const dispatch = useAppDispatch();
 
@@ -21,11 +21,11 @@ function CityList(): JSX.Element {
         >
           <Link
             className={
-              appState.currentCity.name === city.name
+              currentCity.name === city.name
                 ? 'locations__item-link tabs__item tabs__item--active'
                 : 'locations__item-link tabs__item'
             }
-            to={`#${appState.currentCity.name}`}
+            to = {`${AppRoute.Main}#${city.name}`}
           >
             <span>{city.name}</span>
           </Link>
@@ -35,4 +35,5 @@ function CityList(): JSX.Element {
   );
 }
 
-export default memo(CityList);
+export default CityList;
+

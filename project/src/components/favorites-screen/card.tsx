@@ -6,9 +6,10 @@ import {
   FAVORITE_STATUS_NOT_ADDED
 } from '../../const';
 import { useState } from 'react';
-import { store } from '../../store';
 import { changeFavoriteStatus } from '../../store/api-actions';
 import { ratingHandle } from '../../services/rating-handle';
+import { apartmentTypeHandle } from '../../services/apartment-type-handle';
+import { useAppDispatch } from '../../hooks';
 
 type CardProps = {
   offer: Offer;
@@ -20,6 +21,7 @@ function Card(props: CardProps): JSX.Element {
     offer.isFavorite,
   );
   const rating = ratingHandle(offer.rating);
+  const dispatch = useAppDispatch();
   return (
     <article className="favorites__card place-card">
       {offer.isPremium ? (
@@ -49,7 +51,7 @@ function Card(props: CardProps): JSX.Element {
             type="button"
             onClick={() => {
               setFavoriteStatus(!favoriteStatus);
-              store.dispatch(
+              dispatch(
                 changeFavoriteStatus({
                   id: offer.id.toString(),
                   favoriteStatus: favoriteStatus
@@ -75,7 +77,7 @@ function Card(props: CardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={`${AppRoute.Room}/${offer.id}`}>{offer.title}</Link>
         </h2>
-        <p className="place-card__type">{offer.type}</p>
+        <p className="place-card__type">{apartmentTypeHandle(offer.type)}</p>
       </div>
     </article>
   );

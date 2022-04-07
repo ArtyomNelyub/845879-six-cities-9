@@ -2,10 +2,10 @@ import { useState, FormEvent, ChangeEvent, useEffect, useCallback } from 'react'
 import Star from './star';
 import { CommentData } from '../../types/types';
 import { useParams } from 'react-router-dom';
-import { store } from '../../store';
 import { sendComment } from '../../store/api-actions';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { clearForm } from '../../store/app-process/app-process';
+import { getIsPropertyFormCleared, getIsPropertyFormSend } from '../../store/app-process/selectors';
 
 const STAR_TITLES: string[] = [
   'perfect',
@@ -18,13 +18,14 @@ const MIN_REVIEW_LENGTH = 50;
 const MAX_REVIEW_LENGTH = 300;
 
 function FormPropertyScreen(): JSX.Element {
-  const isFormCleared = useAppSelector((state) => state.APP.isPropertyFormCleared);
+  const dispatch = useAppDispatch();
+  const isFormCleared = useAppSelector(getIsPropertyFormCleared);
   useEffect(() => {
     if (!isFormCleared) {
-      store.dispatch(clearForm(true));
+      dispatch(clearForm(true));
     }
   });
-  const isFormSend = useAppSelector((state) => state.APP.isPropertyFormSend);
+  const isFormSend = useAppSelector(getIsPropertyFormSend);
   const [formData, setFormData] = useState<CommentData>({
     review: '',
     rating: '',
@@ -36,7 +37,7 @@ function FormPropertyScreen(): JSX.Element {
     formData.review.length <= MAX_REVIEW_LENGTH;
   const isRatingChecked = formData.rating !== '';
 
-  const FormData = useCallback((evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleFormData = useCallback((evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
   },[formData]);
@@ -49,7 +50,7 @@ function FormPropertyScreen(): JSX.Element {
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         if (id) {
-          store.dispatch(sendComment({ id: id, ...formData }));
+          dispatch(sendComment({ id: id, ...formData }));
         }
       }}
     >
@@ -62,12 +63,12 @@ function FormPropertyScreen(): JSX.Element {
             key={title}
             index={index.toString()}
             title={title}
-            handler={FormData}
+            handleFormData={handleFormData}
           />
         ))}
       </div>
       <textarea
-        onChange={FormData}
+        onChange={handleFormData}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
